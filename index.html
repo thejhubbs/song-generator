@@ -1,0 +1,138 @@
+<html>
+
+<body>
+    <style>
+        * { text-align: center; }
+        #generateStatus,
+        #progression {
+            text-align:left;
+            height: 20vh;
+            background: #333;
+            color: white;
+            overflow: scroll;
+        }
+
+        .column {
+            display: inline-block;
+            width: 40%;
+        }
+    </style>
+
+<h1>Song Generator v.0.0.2</h1>
+<p>Music Broken Into Math- Creates a randomly influenced song- by Frank</p>
+    
+    <div>
+        <div>
+            <button onclick="initSong(this)" data-genre="dancejam">Dance Jam</button>
+            <button onclick="initSong(this)" data-genre="danceballad">Dance Ballad</button>
+            <button onclick="initSong(this)" data-genre="rapbeat">Rap Beat</button>
+            <button onclick="initSong(this)" data-genre="sleepy">Sleepy Time</button>
+            <button onclick="initSong(this)" data-genre="spooky">Spooky Cave</button>
+            <button onclick="initSong(this)" data-genre="danger">Danger</button>
+            
+            <div class="slidecontainer"> Bpm:
+                <input type="range" min="80" max="160" value="100" class="slider" id="bpmControl" onchange="changeTempo()">
+            </div>
+        </div>
+    </div>
+
+    <br />
+    Generated Progression: <div id="progression"></div>
+    Status: <div id="generateStatus"></div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
+
+    <script src="./javascript/chord.js"></script>
+    <script src="./javascript/instrument.js"></script>
+    <script src="./javascript/progression.js"></script>
+    <script src="./javascript/beatPattern.js"></script>
+    <script src="./javascript/songPart.js"></script>
+    <script src="./javascript/song.js"></script>
+
+    
+    <script src="./javascript/genre.js"></script>
+    <script src="./javascript/music.js"></script>
+    <script src="./javascript/utility.js"></script>
+
+    <script>
+
+        let statusElement = document.getElementById('generateStatus')
+
+        song = null
+
+        function initSong(e) {
+            let genre = getGenreMap(e.getAttribute('data-genre'))
+            
+            key = Math.round(( Math.random() * 7) + 1 )
+            console.log( genre )
+            instrumentWeight = genre.instrumentWeight
+            song = new Song( key, genre.mode, genre.resonance, genre.tension, genre.repetition, genre.excitement)
+
+            document.getElementById('progression').innerHTML = song.printSong()
+
+            playSong(genre.bpm)
+
+            return song
+        }
+
+        function changeTempo() {
+            let bpmValue = Number.parseInt(document.getElementById('bpmControl').value)
+            Tone.Transport.bpm.value = bpmValue
+        }
+
+        async function playSong(bpm) {
+            console.log("Building Song")
+            await song.play()
+            console.log("Done building")
+            Tone.Transport.start()
+            Tone.Transport.bpm.value = bpm
+            await Tone.start()
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+
+<!--
+<select id="keyControl" onchange="initSong()">
+    <option value="1">C</option>
+    <option value="2">D</option>
+    <option value="3">E</option>
+    <option value="4">F</option>
+    <option value="5">G</option>
+    <option value="6">A</option>
+    <option value="7">B</option>
+</select>
+
+<select id="modeControl" onchange="initSong()">
+    <option value="1">Major- Happy</option>
+    <option value="2">Dorian- Dreamy</option>
+    <option value="3">Phrygian- Drudgy</option>
+    <option value="4">Lydian- Fun</option>
+    <option value="5">Mixolydian- Upbeat</option>
+    <option value="6">Aeolian- Emotional</option>
+    <option value="7">Locrian- Dark</option>
+</select>
+
+
+
+<br />
+Song Controls: <br />
+Resonance: <div class="slidecontainer">
+    <input type="range" min="1" max="10" value="8" class="slider" id="resonanceControl" onchange="initSong()">
+</div>
+Repetition: <div class="slidecontainer">
+    <input type="range" min="1" max="10" value="7" class="slider" id="repetitionControl" onchange="initSong()">
+</div>
+Tension: <div class="slidecontainer">
+    <input type="range" min="1" max="10" value="6" class="slider" id="tensionControl" onchange="initSong()">
+</div>
+Excitement: <div class="slidecontainer">
+    <input type="range" min="1" max="10" value="6" class="slider" id="excitementControl" onchange="initSong()">
+</div>
+-->
