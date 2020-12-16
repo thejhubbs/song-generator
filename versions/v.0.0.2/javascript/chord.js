@@ -1,10 +1,10 @@
 class Chord {
     constructor({root = 1, bass = 1, notes = [1, 3, 5], func=0, flavor=0}){
-        this.root = Number.parseInt(`${root}`)
-        this.bass = Number.parseInt(`${bass}`)
-        this.notes = [...notes]
-        this.func = Number.parseInt(`${func}`)
-        this.flavor = Number.parseInt(`${flavor}`)
+        this.root = root 
+        this.bass = bass
+        this.notes = notes
+        this.func = func
+        this.flavor = flavor
     }
 
     addNote(number){
@@ -43,9 +43,9 @@ class Chord {
         this.flavor = flavor
 
         let baseChord = findChordByFuncFlavor(func, flavor).chord
-        this.root = Number.parseInt(`${baseChord.root}`)
-        this.bass = Number.parseInt(`${baseChord.bass}`)
-        this.notes = [...baseChord.notes]
+        this.root = baseChord.root
+        this.bass = baseChord.bass
+        this.notes = baseChord.notes
     }
 
     //Given a note position, it returns the absolute position on the scale.
@@ -123,9 +123,9 @@ class Chord {
         return this.noteName(note, scaleNotes) + octave
     }
 
-    printChord(octave, scaleNotes) {
+    printChord(excitement, scaleNotes) {
         if(!scaleNotes) { console.log("Error") }
-        let harmonyNotes = this.printScaleNotesOctave( [...this.notes], octave, scaleNotes)
+        let harmonyNotes = this.printScaleNotesOctave( [...this.notes].splice(1, 5), 4, scaleNotes)
 
         return harmonyNotes
     }
@@ -142,15 +142,13 @@ class Chord {
     }
 
     duplicateChord() {
-        let c = new Chord({root: this.root, 
+        return new Chord({root: this.root, 
             bass: this.bass, 
             notes: this.notes, 
             name: this.name, 
             func: this.func, 
             flavor: this.flavor
         })
-        c.alterFuncFlavor(0, 0)
-        return c
     }
 
     printName(scaleNotes, scaleChords){

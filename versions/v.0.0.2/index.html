@@ -2,17 +2,24 @@
 
 <body>
     <style>
-        * { text-align: center; margin: 0; padding: 0; }
-        
-        
+        * { text-align: center; }
+        #generateStatus,
+        #progression {
+            text-align:left;
+            height: 20vh;
+            background: #333;
+            color: white;
+            overflow: scroll;
+        }
+
         .column {
             display: inline-block;
             width: 40%;
         }
     </style>
 
-<h1>Apollo's Lyre v.0.0.3</h1>
-<p>Music Broken Into Math- Creates a randomly influenced song- by Broken Record</p>
+<h1>Song Generator v.0.0.2</h1>
+<p>Music Broken Into Math- Creates a randomly influenced song- by Frank</p>
     
     <div>
         <div>
@@ -37,18 +44,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
 
-    <script src="./javascript/musicSettings.js"></script>
-
     <script src="./javascript/chord.js"></script>
     <script src="./javascript/instrument.js"></script>
     <script src="./javascript/progression.js"></script>
     <script src="./javascript/beatPattern.js"></script>
-    <script src="./javascript/arrangementPart.js"></script>
     <script src="./javascript/songPart.js"></script>
     <script src="./javascript/song.js"></script>
 
     
-    <script src="./javascript/instrumentList.js"></script>
     <script src="./javascript/genre.js"></script>
     <script src="./javascript/music.js"></script>
     <script src="./javascript/utility.js"></script>
@@ -65,8 +68,7 @@
             key = Math.round(( Math.random() * 7) + 1 )
             console.log( genre )
             instrumentWeight = genre.instrumentWeight
-            musicSettings = new MusicSetting(genre)
-            song = new Song( key, genre.mode, musicSettings)
+            song = new Song( key, genre.mode, genre.resonance, genre.tension, genre.repetition, genre.excitement)
 
             document.getElementById('progression').innerHTML = song.printSong()
 

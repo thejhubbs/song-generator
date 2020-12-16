@@ -7,9 +7,11 @@ let positionMap = [
 ]
 
 class Progression {
-    constructor(musicSettings, chords=null) {
+    constructor(resonance, tension, repetition, chords=null) {
         this.chords = chords
-        this.musicSettings = musicSettings.clone()
+        this.resonance = resonance > 10 ? 10 : (resonance <= 1 ? 1 : resonance)
+        this.tension  = tension > 10 ? 10 : (tension <= 1 ? 1 : tension)
+        this.repetition= repetition > 10 ? 10 : (repetition <= 1 ? 1 : repetition)
 
         if(chords) { 
             statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;Cloning Chord Progression<br />`
@@ -36,7 +38,7 @@ class Progression {
     generateChord(position) {
         statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generating Chord<br />`
         let positionWeights = positionMap[position-1]
-        let settings = [this.musicSettings.resonance, this.musicSettings.tension, this.musicSettings.repetition]
+        let settings = [this.resonance, this.tension, this.repetition]
         let temp = []
         let total = 0
 
@@ -66,14 +68,14 @@ class Progression {
 
     //returns an integer 0, 1, or 2 weighted on resonance
     calculateResonanceFunction() {
-        let resonanceMap = [85, 15, 0].map((v) => v ** ( (this.musicSettings.resonance-5) / 2 ))
+        let resonanceMap = [85, 15, 0].map((v) => v ** ( (this.resonance-5) / 2 ))
 
         let ret = normalizeAndGetRandomFromMap(resonanceMap)
         return ret
     }
 
     calculateResonanceFlavor() {
-        let resonanceMap = [85, 15, 0].map((v) => v ** ((this.musicSettings.resonance - 5) / 2) )
+        let resonanceMap = [85, 15, 0].map((v) => v ** ((this.resonance - 5) / 2) )
 
         let ret = normalizeAndGetRandomFromMap(resonanceMap) 
         return ret
@@ -81,14 +83,14 @@ class Progression {
 
     //returns an integer 0, 1, or 2 weighted on tension for function
     calculateTensionFunction() {
-        let tFuMap = [10, 30, 60].map((v) => v ** ((this.musicSettings.tension-5) / 2) )
+        let tFuMap = [10, 30, 60].map((v) => v ** ((this.tension-5) / 2) )
         let ret = normalizeAndGetRandomFromMap(tFuMap)
         return ret
     }
 
     //returns an integer 0, 1, or 2 weighted on tension for flavor
     calculateTensionFlavor() {
-        let tFlMap = [50, 30, 20].map((v) => v ** ((this.musicSettings.tension-5) / 2) )
+        let tFlMap = [50, 30, 20].map((v) => v ** ((this.tension-5) / 2) )
         let ret = normalizeAndGetRandomFromMap(tFlMap)
         return ret
     }
@@ -121,47 +123,62 @@ class Progression {
     }
 
     clone() {
-        return new Progression(this.musicSettings, this.chords)
+        return new Progression(this.resonance, this.tension, this.repetition, this.chords)
     }
 
-    regenerate(musicSettings) {
-        this.musicSettings = musicSettings.clone()
+    regenerate(resonanceChange = 0, tensionChange = 0, repetitionChange = 0, influence = 5) {
+        statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Altering Chord Progression<br />`
+
+        let ix = ((2*influence/10))
+
+        resonanceChange = ix * resonanceChange
+        tensionChange = ix * tensionChange
+        repetitionChange = ix * repetitionChange
+
+        this.resonance += resonanceChange
+        this.tension += tensionChange
+        this.repetition += repetitionChange
+
+        //bound to 0<x<11
+        this.resonance = this.resonance > 10 ? 10 : (this.resonance <= 1 ? 1 : Math.round(this.resonance))
+        this.tension  = this.tension > 10 ? 10 : (this.tension <= 1 ? 1 : Math.round(this.tension))
+        this.repetition= this.repetition > 10 ? 10 : (this.repetition <= 1 ? 1 : Math.round(this.repetition))
 
         //first chord
-        if(this.musicSettings.resonance > this.musicSettings.tension) {
+        if(this.resonance > this.tension) {
             this.chords[0].alterFuncFlavor(-1, -1)
         } else {
             this.chords[0].alterFuncFlavor(0, 1)
         }
 
         //second chord
-        if( rTF( ( this.musicSettings.resonance / 12 ) * 100 )  ) {
+        if( rTF( ( this.resonance / 12 ) * 100 )  ) {
             this.chords[1].alterFuncFlavor(-1, 0)
         }
-        if( rTF( ( this.musicSettings.tension +  (5 - this.musicSettings.repetition) / 15 ) * 10 ) ) {
+        if( rTF( ( this.tension +  (5 - this.repetition) / 15 ) * 10 ) ) {
             this.chords[1].alterFuncFlavor(0, 1)
         }
 
         //third chord
-        if( rTF( ( this.musicSettings.resonance / 12 ) * 100 ) ) {
+        if( rTF( ( this.resonance / 12 ) * 100 ) ) {
             this.chords[2].alterFuncFlavor(0, -1)
         }
-        if( rTF( ( this.musicSettings.tension +  (5 - this.musicSettings.repetition) / 15 ) * 10 ) ) {
+        if( rTF( ( this.tension +  (5 - this.repetition) / 15 ) * 10 ) ) {
             this.chords[2].alterFuncFlavor(-1, 1)
         }
 
         //fourth chord
-        if( rTF( ( this.musicSettings.resonance / 12 ) * 100 ) ) {
+        if( rTF( ( this.resonance / 12 ) * 100 ) ) {
             this.chords[3].alterFuncFlavor(0, -1)
         }
-        if( rTF( ( this.musicSettings.tension + (5 - this.repetition) / 10 ) * 10 ) ) {
+        if( rTF( ( this.tension + (5 - this.repetition) / 10 ) * 10 ) ) {
             this.chords[3].alterFuncFlavor(1, 1)
         }
-        console.log(( this.musicSettings.tension*this.musicSettings.tension / 125 ) * 100)
-        if( rTF( ( this.musicSettings.tension*this.musicSettings.tension / 125 ) * 100 ) ) {
+        console.log(( this.tension*this.tension / 125 ) * 100)
+        if( rTF( ( this.tension*this.tension / 125 ) * 100 ) ) {
             this.chords[3].addOneNote([7, 9, 11, 13])
         }
-        if( rTF( ( this.musicSettings.tension*this.musicSettings.tension / 150 ) * 100 ) ) {
+        if( rTF( ( this.tension*this.tension / 150 ) * 100 ) ) {
             this.chords[3].addOneNote([7, 9, 11, 13])
         }
 
@@ -185,14 +202,10 @@ class Progression {
         if(chordIsEqual(this.chords[2], this.chords[3])){
             this.chords[3].changeNote(3, 4)
         }
-    }
+        
 
-    print(scaleNotes, scaleChords) {
-        let ret = "<div>"
-        ret += "<b>Progression</b> "
-        ret += this.printChordNames(scaleNotes, scaleChords)
-        ret += "</div>"
-        return ret
+
+
     }
 
 }

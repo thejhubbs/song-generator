@@ -37,15 +37,3 @@ function rTF(weight = 50) {
     getRandomFromMap(weightMap) === 1 ? ret = true : ret = false
     return ret
 }
-
-//Put in two values. the first is the true weight, the second is the false weight
-function rTFScale(trueWeight, falseWeight) {
-    return [true, false][normalizeAndGetRandomFromMap([trueWeight, falseWeight])]
-}
-
-function bound(value, low, high) {
-    let ret = value || 0
-    if(ret < low) { ret = low }
-    if(ret > high) { ret = high }
-    return ret
-}

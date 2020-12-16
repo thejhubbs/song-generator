@@ -1,0 +1,282 @@
+<html>
+
+<body>
+    <style>
+        #generateStatus,
+        #progression {
+            height: 20vh;
+            background: #333;
+            color: white;
+            overflow: scroll;
+        }
+
+        .column {
+            display: inline-block;
+            width: 40%;
+        }
+    </style>
+
+    <h1>Song Generator- v.0.0.1</h1>
+    <div class="column">
+        Song Settings: <br />
+        Key: <br />
+        <select id="keyControl" onchange="initSong()">
+            <option value="1">C</option>
+            <option value="2">D</option>
+            <option value="3">E</option>
+            <option value="4">F</option>
+            <option value="5">G</option>
+            <option value="6">A</option>
+            <option value="7">B</option>
+        </select>
+
+        <select id="modeControl" onchange="initSong()">
+            <option value="1">Major</option>
+            <option value="2">Dorian</option>
+            <option value="3">Phrygian</option>
+            <option value="4">Lydian</option>
+            <option value="5">Mixolydian</option>
+            <option value="6">Aeolian</option>
+            <option value="7">Locrian</option>
+        </select>
+
+
+        <br />
+        Song Controls: <br />
+        Resonance: <div class="slidecontainer">
+            <input type="range" min="1" max="10" value="9" class="slider" id="resonanceControl" onchange="initSong()">
+        </div>
+        Repetition: <div class="slidecontainer">
+            <input type="range" min="1" max="10" value="7" class="slider" id="repetitionControl" onchange="initSong()">
+        </div>
+        Tension: <div class="slidecontainer">
+            <input type="range" min="1" max="10" value="6" class="slider" id="tensionControl" onchange="initSong()">
+        </div>
+        Excitement: <div class="slidecontainer">
+            <input type="range" min="1" max="10" value="2" class="slider" id="excitementControl" onchange="initSong()">
+        </div>
+    </div>
+
+    <div class="column">
+        Generated Progression: <div id="progression"></div>
+    </div>
+
+    <div>
+        <button onclick="initSong()">Regenerate</button>
+        <button onclick="playSong()">Play It</button>
+    </div>
+
+    Status: <div id="generateStatus"></div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
+
+    <script src="./javascript/chord.js"></script>
+    <script src="./javascript/progression.js"></script>
+    <script src="./javascript/beatPattern.js"></script>
+    <script src="./javascript/songPart.js"></script>
+    <script src="./javascript/song.js"></script>
+
+
+    <script src="./javascript/music.js"></script>
+    <script src="./javascript/utility.js"></script>
+
+    <script>
+
+
+
+        let statusElement = document.getElementById('generateStatus')
+
+        song = initSong()
+
+        function initSong() {
+            let resonance = Number.parseInt(document.getElementById('resonanceControl').value)
+            let repetition = Number.parseInt(document.getElementById('repetitionControl').value)
+            let tension = Number.parseInt(document.getElementById('tensionControl').value)
+            let excitement = Number.parseInt(document.getElementById('excitementControl').value)
+
+            let key = Number.parseInt(document.getElementById('keyControl').value)
+            let mode = Number.parseInt(document.getElementById('modeControl').value)
+
+
+            song = new Song(key, mode, resonance, repetition, tension, excitement)
+
+            document.getElementById('progression').innerHTML = song.printSong()
+
+            return song
+        }
+
+        function stopSong() {
+            Tone.stop()
+        }
+
+
+        async function playSong() {
+
+            const now = Tone.now()
+
+            const comp = new Tone.Compressor(-30, 3).toDestination()
+
+            const chorusFX = new Tone.Chorus(4, 2.5, 0.5).connect(comp);
+            const reverbFX = new Tone.Reverb(3).connect(comp);
+            const distFX = new Tone.Distortion(0.8).connect(comp);
+
+            const highFilterRV = new Tone.EQ3(-100, 0, 2).connect(reverbFX);
+            const highFilter = new Tone.EQ3(-100, -20, 2).connect(comp);
+            const midFilter = new Tone.EQ3(-100, 0, -40).connect(chorusFX);
+            const lowFilter = new Tone.EQ3(2, -40, -100).connect(comp);
+
+            const harmonySynth = new Tone.PolySynth(Tone.Synth).connect(midFilter);
+            const melodySynth = new Tone.PolySynth(Tone.Synth).connect(highFilterRV);
+            const bassSynth = new Tone.PolySynth(Tone.Synth).connect(lowFilter);
+
+            const kick =  new Tone.PolySynth(Tone.MembraneSynth).connect(highFilter);
+            const snare =  new Tone.PolySynth(Tone.MembraneSynth).connect(lowFilter);
+            const hat =  new Tone.PolySynth(Tone.MetalSynth).connect(lowFilter);
+
+            harmonySynth.volume.value = -5
+            bassSynth.volume.value = 0
+            melodySynth.volume.value = 0
+
+            kick.volume.value = -5
+            snare.volume.value = -5
+            hat.volume.value = -20
+
+            let time = 0
+            let sn = song.scaleNotes
+
+            console.log(song.scaleNotes)
+
+            song.songParts.map((songPart, si) => {
+
+                let chorus = si % 2 === 1
+                let partChords = songPart.retrieveChords()
+                let spacing = 16
+                let keyChord = songPart.coreProgression.chords[0]
+
+                partChords.map((chord, i) => {
+                    
+                    songPart.synthPattern.mainBeat
+                    .map((beatItem) => {
+                        let p = Number.parseInt(beatItem.position)
+                        let timing = now + time + (p / spacing)
+
+                        
+                        
+                        let chordNotes = chord.printChord(songPart.excitement, sn)
+                        let bassNote = chord.printBassNote(1, sn)
+                        let rootNote = chord.printNote(1, sn)
+                        
+
+                        if (beatItem.weight >= 500) {
+                            harmonySynth.triggerAttackRelease(chordNotes, '16n', timing, 1)
+                            bassSynth.triggerAttackRelease(bassNote, '16n', timing)
+                        } else if (beatItem.weight >= 400) {
+                            harmonySynth.triggerAttackRelease(chordNotes, '16n', timing, .9)
+                            bassSynth.triggerAttackRelease(bassNote, '16n', timing)
+                        } else if (beatItem.weight >= 200) {
+                            let randomBass = (beatItem.weight % 2) + 1
+                            harmonySynth.triggerAttackRelease(rootNote, '16n', timing, .5)
+                            bassSynth.triggerAttackRelease(chord.printBassNote(randomBass, sn), '16n', timing)
+                        } else if (beatItem.weight >= 100) {
+                            harmonySynth.triggerAttackRelease(rootNote, '16n', timing, .5)
+                        } else {
+                            let randomBass = (beatItem.weight % 6) + 1
+                            bassSynth.triggerAttackRelease(chord.printBassNote(randomBass, sn), '16n', timing)
+                        }
+                    })
+
+                    songPart.drumPattern.mainBeat
+                   .sort((a, b) => Number.parseInt(a.position) - Number.parseInt(a.position)).map((beatItem) => {
+                        let p = Number.parseInt(beatItem.position)
+                        let timing = now + time + (p / spacing)
+
+                        if (beatItem.weight >= 500) {
+                            kick.triggerAttackRelease("C2", '16n', timing, 1)
+                            hat.triggerAttackRelease("C6", '32n', timing, 1)
+                        } else if (beatItem.weight >= 400) {
+                            kick.triggerAttackRelease("C2", '16n', timing, .85)
+                        } else if (beatItem.weight >= 300) {
+                            kick.triggerAttackRelease("C2", '16n', timing, .85)
+                            snare.triggerAttackRelease("C3", '16n', timing, .85)
+                        } else if (beatItem.weight >= 200) {
+                            snare.triggerAttackRelease("C3", '16n', timing, 1)
+                        } else if (beatItem.weight >= 100) {
+                            kick.triggerAttackRelease("C2", '16n', timing, .7)
+                        } else {
+                            let vol = beatItem.weight / 200
+                            hat.triggerAttackRelease("C6", '32n', timing, vol)
+                        } 
+
+                    })
+
+                    songPart.melodyPattern.mainBeat
+                    .map((beatItem) => {
+                        let p = Number.parseInt(beatItem.position)
+                        let timing = now + time + p / spacing
+
+                        if (beatItem.weight >= 500) {
+                            let octaveNote = chord.printNote(1, sn)
+                            melodySynth.triggerAttackRelease(octaveNote, '16n', timing, 1)
+                        } else if (beatItem.weight >= 400) {
+                            let randomNote = (beatItem.weight % 4) + 4 
+                            melodySynth.triggerAttackRelease(chord.printNote( randomNote, sn), '16n', timing, .8)
+                        }  else if (beatItem.weight >= 100) {
+                            let randomNote = (beatItem.weight % 7) + 16
+                            melodySynth.triggerAttackRelease(keyChord.printScaleNote( randomNote, sn), '16n', timing, .7)
+                        } else {
+                            let randomNote = (beatItem.weight % 7) + 8
+                            let volume = (beatItem.weight/400 + .25)
+                            melodySynth.triggerAttackRelease(keyChord.printScaleNote( randomNote, sn ), '16n', timing, volume)
+                        }
+                    })
+
+
+
+                    time += 2
+
+                })
+
+            })
+
+            await Tone.start()
+
+        }
+
+
+    </script>
+
+</body>
+
+</html>
+
+<!--/ if(chorus) { 
+    //     synth.triggerAttackRelease(chord.printChord(), '8n', now + time ) 
+    //     synth.triggerAttackRelease(chord.printChord(), '8n', now + time + 1) 
+    //     synth.triggerAttackRelease(chord.printChord(), '8n', now + time + 1.5)
+
+    //     synth.triggerAttackRelease(chord.printNote(1), '16n', now + time + 1.625)
+    //     synth.triggerAttackRelease(chord.printNote(3), '16n', now + time + 1.875)
+    // }
+    // else {  
+    //     synth.triggerAttackRelease([chord.printBassNote(), chord.printNote(1)], '8n', now + time)
+        
+    //     synth.triggerAttackRelease(chord.printBassNote(2), '8n', now + time + .5)
+    //     synth.triggerAttackRelease(chord.printChord(), '8n', now + time + 1)
+    //     synth.triggerAttackRelease(chord.printChord(), '8n', now + time + 1.5)
+    //     synth.triggerAttackRelease(chord.printNote(1), '8n', now + time + 1.75)
+    
+    // }
+
+    // kick.triggerAttackRelease("C2", '8n', now + time )
+
+    // if(chorus) { 
+    //     kick.triggerAttackRelease("C2", '8n', now + time + .5 ) 
+    //     kick.triggerAttackRelease("C2", '8n', now + time + 1.5 )
+    //     kick.triggerAttackRelease("C2", '8n', now + time + 1.75 )
+    // }
+    // else { 
+    //     kick.triggerAttackRelease("C2", '8n', now + time + 1) 
+    // }
+    -->

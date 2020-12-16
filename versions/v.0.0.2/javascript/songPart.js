@@ -1,7 +1,7 @@
 class SongPart {
-    constructor(progression, kind, progressions = null, beatPattern = null, patterns = null) {
+    constructor(progression, excitement, kind, progressions = null, beatPattern = null, patterns = null) {
         this.coreProgression = progression.clone()
-        this.musicSettings = progression.musicSettings.clone()
+        this.excitement = excitement < 1 ? 1 : (excitement > 10 ? 10 : excitement)
         this.kind = kind
 
         progressions ? this.cloneNew(progressions, beatPattern, patterns) : this.processNew()
@@ -10,6 +10,7 @@ class SongPart {
     }
 
     processNew() {
+        statusElement.innerHTML += `&nbsp;Creating Song Part- ${this.kind}<br />`
         if (this.kind !== "prechorus") {
             this.progressions = [this.coreProgression.clone(), this.coreProgression.clone()]
         } else {
@@ -57,30 +58,24 @@ class SongPart {
                 break;
         }
 
-        this.beatPattern = new BeatPattern(this.musicSettings)
-        
-        let p1 = this.beatPattern.cloneRandomize(this.musicSettings.resonance)
-        let p2 = this.beatPattern.cloneRandomize(this.musicSettings.resonance)
-        let p3 = this.beatPattern.cloneRandomize(this.musicSettings.resonance)
-        let p4 = this.beatPattern.cloneRandomize(this.musicSettings.resonance)
-        let p5 = this.beatPattern.cloneRandomize(this.musicSettings.resonance)
-
+        this.beatPattern = new BeatPattern(this.excitement, this.coreProgression.repetition)
         this.patterns = [
-            new ArrangementPart('kick', p1 ),
-            //new ArrangementPart('hat', p2 ),
-            new ArrangementPart('bass', p3 ),
-            new ArrangementPart('harmony',  p4),
-            new ArrangementPart('melody', new BeatPattern( this.musicSettings) ),
-            new ArrangementPart('fx',  new BeatPattern( this.musicSettings ) ),
-            new ArrangementPart('vox',  p5),
+            { name: 'drums', pattern: this.beatPattern.cloneAlter(this.excitement+2).cloneRandomize(this.coreProgression.resonance) },
+            { name: 'bass', pattern: this.beatPattern.cloneRandomize(this.coreProgression.resonance).cloneAlter(this.excitement-2) },
+            { name: 'harmony', pattern: this.beatPattern.cloneRandomize(this.coreProgression.resonance) },
+            { name: 'melody', pattern: new BeatPattern(8, 3) },
+            { name: 'fx', pattern: new BeatPattern(5, 9) },
+            { name: 'melody2', pattern: this.beatPattern.cloneRandomize(this.coreProgression.resonance).cloneAlter(this.excitement-2) },
         ]
     }
 
     cloneNew(progressions, beatPattern, patterns) {
         if (!progressions || !beatPattern || !patterns) { console.log("ERROR in new SongPart.clone()") }
 
+        statusElement.innerHTML += `&nbsp;Cloning Song Part- ${this.kind}<br />`
+
         this.progressions = progressions.map((p) => p.clone())
-        this.patterns = patterns.map((p) => p.clone())
+        this.patterns = patterns.map((p) => ({ ...p, pattern: p.pattern.clone() }))
         this.beatPattern = beatPattern.clone()
     }
 
@@ -89,10 +84,9 @@ class SongPart {
     }
 
     cloneAlter(excitementChange = 0, repeat = false) {
-        //account for excitementChange
-        return new SongPart(this.coreProgression, this.kind,
+        return new SongPart(this.coreProgression, this.excitement + excitementChange, this.kind,
             repeat ? [...this.progressions, ...this.progressions] : this.progressions,
-            this.beatPattern, this.patterns)
+            this.beatPattern, this.patterns, this.instruments)
     }
 
     processSecondChorus() {
@@ -141,35 +135,32 @@ class SongPart {
         let progressionMainChord = this.coreProgression.chords[0]
 
         chords.map((chord, i) => {
-            //let e = this.musicSettings.excitement
-            let e = this.musicSettings.excitement + (Math.round(Math.sqrt(this.musicSettings.excitement)) * (i/2-4) )
-            e = bound(e, 1, 10)
 
-            this.patterns.map( (p) => p.playPart(e, songPartIndex, chord, i, now, time, spacing, progressionMainChord, song) )
-            
+            //let e = this.excitement + (Math.round(Math.sqrt(this.excitement)) + i - 1)
+            //let e = this.excitement + (Math.round(Math.sqrt(this.excitement)) + i - 2)
+            //let e = this.excitement + (Math.round(Math.sqrt(this.excitement)) + i - 3)
+            let e = this.excitement + (Math.round(Math.sqrt(this.excitement)) + i - 5)
+
+            //bound e to 10
+            e <= 0 ? e = 1 : (e > 10 ? e = 10 : null)
+
+            let drumWeight = Math.ceil( (instrumentWeight[0] * 2 * e ) / 1000 )
+            let bassWeight = Math.ceil(  (instrumentWeight[1] * 2 * e * this.coreProgression.tension) / 1000  )
+            let harmonyWeight = Math.ceil( (instrumentWeight[2] * 2 * e * this.coreProgression.resonance) / 1000 )
+            let melodyWeight =  Math.ceil( (instrumentWeight[3] * 2 * e * e) / 1000 )
+            let fxWeight =  Math.ceil( (instrumentWeight[4] * 2 * e * e) / 1000 )
+
+            playDrums(drumWeight, this.patterns[0].pattern, chord, i, now, time, spacing, progressionMainChord, song)          
+            playBass(bassWeight, this.patterns[1].pattern, chord, i, now, time, spacing, progressionMainChord, song)
+            playHarmony(harmonyWeight, this.patterns[2].pattern, chord, i, now, time, spacing, song)
+            playMelody(melodyWeight, this.patterns[3].pattern, chord, i, now, time, spacing, progressionMainChord, song)  
+            playHookMelody(fxWeight, this.patterns[4].pattern, chord, i, now, time, spacing, progressionMainChord, song)  
+            playVocalMelody(melodyWeight, this.patterns[5].pattern, chord, i, now, time, spacing, progressionMainChord, song)  
+
             time += 4
         })
 
         return time
-    }
-
-    print(scaleNotes, scaleChords) {
-        let ret = "<div>"
-        
-        ret += "<h2>" + this.kind + "</h2>"
-        
-        ret += this.musicSettings.print()
-        ret += this.coreProgression.print(scaleNotes, scaleChords)
-
-        ret += "<h3>Main Pattern</h3>"
-        ret += this.beatPattern.print()
-
-        ret += "<h3>Arrangements</h3>"
-        this.patterns.map ((p) => ret += "<div>" + p.name + ": " + p.beatPattern.print() + "</div>")
-
-
-        ret += "</div>"
-        return ret
     }
 
 

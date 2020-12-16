@@ -1,12 +1,13 @@
 class BeatPattern {
-    constructor(musicSettings, beat = null) {
-        this.musicSettings = musicSettings.clone()
-        this.excitement = musicSettings.excitement
-        this.repetition = musicSettings.repetition
+    constructor(excitement, repetition, beat = null) {
+        this.excitement = excitement <= 0 ? 1 : (excitement >= 10 ? 10 : excitement)
+        this.repetition = repetition
         if(beat) { 
             this.mainBeat = beat 
+            statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;Cloning Beat Pattern<br />`
         }
         else { 
+            statusElement.innerHTML += `&nbsp;&nbsp;Creating Beat Pattern<br />`
             this.randomizeBeat() 
         }
     }
@@ -25,18 +26,17 @@ class BeatPattern {
 
         let weightKey = {}
         randomMap.map( (r) => weightKey[String(r)] ? weightKey[String(r)] += 1 : weightKey[String(r)] = 1)
-        let val = Math.sqrt(this.repetition) / 3
+        let val = Math.sqrt(this.repetition)
         Object.entries(weightKey).map( ([notePos, weight]) => weightKey[String(notePos)] = Math.round(weight**val) )
 
         let simpleWeightArray = Object.values(weightKey)
         let weightKeys = Object.keys(weightKey)
-        
 
-        let amount = (this.excitement*2)
+        let amount = (this.excitement+4)
         
         for (let i = 0; i < amount; i++) {
             let val = normalizeAndGetRandomFromMap(simpleWeightArray)
-            let weight = simpleWeightArray[val] //* (amount - i) * ((11 - this.excitement)**1.5)
+            let weight = simpleWeightArray[val] * (amount - i) * ((11 - this.excitement)**1,5)
             let position = weightKeys[val]
             let copy = false
             
@@ -50,7 +50,7 @@ class BeatPattern {
     }
 
     cloneAlter(excitement) {
-        let clone = new BeatPattern(this.musicSettings, this.mainBeat)
+        let clone = new BeatPattern(excitement, this.repetition, this.mainBeat)
 
         let scaleContrast = excitement / this.excitement
         let differenceContrast = excitement - this.excitement
@@ -67,8 +67,7 @@ class BeatPattern {
     }
 
     cloneRandomize(resonance) {
-        let influence = new BeatPattern(this.musicSettings)
-
+        let influence = new BeatPattern(this.excitement, this.repetition)
 
         let similarity = resonance / 12
         let newAmount = Math.round( (influence.mainBeat.length + this.mainBeat.length) / 2)
@@ -88,26 +87,7 @@ class BeatPattern {
     }
 
     clone() {
-        return new BeatPattern(this.musicSettings, this.mainBeat)
-    }
-
-    print(){
-        let ret = "<span>"
-        ret += this.musicSettings.print()
-
-        //ret += "[" + this.mainBeat.map((b) => b.position + "/" + b.weight).join(", ") + "]"
-        let arr = []
-        this.mainBeat.map((b) => arr[b.position] = b.weight)
-
-        ret += "["
-        for(var i = 0; i < 32; i++) {
-            if(arr[i]) { ret += arr[i] }
-            else { ret += '-'}
-        }
-        ret += "]"
-
-        ret += "</span>"
-        return ret
+        return new BeatPattern(this.excitement, this.repetition, this.mainBeat)
     }
 
 }

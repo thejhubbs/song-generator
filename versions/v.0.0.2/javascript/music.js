@@ -24,15 +24,7 @@ let funcFlavorMap = [
     { root: 7, func: 1, flavor: 2, chord: new Chord({ root: 7, bass: 5, notes: [1, 3, 5, 7], func: 1, flavor: 2 }) },
 ]
  //drums, bass, harmony, melody
-let instrumentWeight = {
-    kick: 80,
-    hat: 80,
-    bass: 100,
-    harmony: 40,
-    melody: 40,
-    fx: 80,
-    vox: 20
-} 
+let instrumentWeight = [15, 15, 25, 35]
 
 function findChordByFuncFlavor(func, flavor) {
     let ret = null

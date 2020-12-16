@@ -8,17 +8,9 @@ function getGenreMap(kind) {
                 tension: [6, 8],
                 repetition: [7, 9],
                 excitement: [4, 8],
-                spread: [4, 6],
                 bpm: [85, 95],
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                //drums, bass, harmony, melody, fx
+                instrumentWeight: [40, 40, 25, 10, 40]
             }
             break;
         case 'danceballad':
@@ -28,18 +20,9 @@ function getGenreMap(kind) {
                 tension: [2, 4],
                 repetition: [8, 9],
                 excitement: [4, 7],
-                spread: [4, 6],
                 bpm: [50, 60],
                 //drums, bass, harmony, melody, fx
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                instrumentWeight: [50, 15, 45, 20, 2]
             }
             break;
         case 'dancejam':
@@ -49,18 +32,9 @@ function getGenreMap(kind) {
                 tension: [2, 4],
                 repetition: [8, 9],
                 excitement: [8, 10],
-                spread: [4, 6],
                 bpm: [110, 140],
                 //drums, bass, harmony, melody, fx
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                instrumentWeight: [50, 25, 50, 50, 30]
             }
             break;
         case 'spooky':
@@ -70,18 +44,9 @@ function getGenreMap(kind) {
                 tension: [7, 10],
                 repetition: [1, 4],
                 excitement: [2, 5],
-                spread: [4, 6],
                 bpm: [60, 80],
                 //drums, bass, harmony, melody, fx
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                instrumentWeight: [50, 15, 25, 30, 20]
             }
             break;
         case 'danger':
@@ -91,18 +56,9 @@ function getGenreMap(kind) {
                 tension: [8, 10],
                 repetition: [8, 10],
                 excitement: [7, 9],
-                spread: [4, 6],
                 bpm: [120, 160],
                 //drums, bass, harmony, melody, fx
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                instrumentWeight: [15, 25, 35, 10, 20]
             }
             break;
         case 'sleepy':
@@ -112,46 +68,17 @@ function getGenreMap(kind) {
                 tension: [1, 2],
                 repetition: [8, 10],
                 excitement: [4, 7],
-                spread: [4, 6],
                 bpm: [40, 60],
                 //drums, bass, harmony, melody, fx
-                instrumentWeight: {
-                    kick: 100,
-                    hat: 100,
-                    bass: 100,
-                    harmony: 100,
-                    melody: 100,
-                    fx: 100,
-                    vox: 100
-                } 
+                instrumentWeight: [5, 15, 30, 50, 20]
             }
             break;
-    }
-     
-    map = {
-        mode: [1, 1, 2, 4, 5, 6],
-        resonance: [4, 8],
-        tension: [4, 8],
-        repetition: [4, 8],
-        excitement: [6, 8],
-        spread: [4, 6],
-        bpm: [85, 95],
-        instrumentWeight: {
-            kick: 100,
-            hat: 100,
-            bass: 100,
-            harmony: 100,
-            melody: 100,
-            fx: 100,
-            vox: 100
-        } 
     }
 
     map.mode = randomValueFromArray(map.mode)
     map.resonance = randomValueFromRange(map.resonance)
     map.tension = randomValueFromRange(map.tension)
     map.repetition = randomValueFromRange(map.repetition)
-    map.spread = randomValueFromRange(map.spread)
     map.excitement = randomValueFromRange(map.excitement)
     map.bpm = randomValueFromRange(map.bpm)
 
