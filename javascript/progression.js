@@ -12,11 +12,9 @@ class Progression {
         this.musicSettings = musicSettings.clone()
 
         if(chords) { 
-            statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;Cloning Chord Progression<br />`
             this.copyProgression() 
         }
         else { 
-            statusElement.innerHTML += `&nbsp;&nbsp;Creating Chord Progression<br />`
             this.createProgression() 
         }
     }
@@ -30,11 +28,10 @@ class Progression {
     }
 
     copyProgression() {
-        this.chords = this.chords.map( (c) => c.duplicateChord() )
+        this.chords = this.chords.map( (c) => c.clone() )
     }
 
     generateChord(position) {
-        statusElement.innerHTML += `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Generating Chord<br />`
         let positionWeights = positionMap[position-1]
         let settings = [this.musicSettings.resonance, this.musicSettings.tension, this.musicSettings.repetition]
         let temp = []
@@ -59,7 +56,7 @@ class Progression {
 
         choice = options[getRandomFromMap(positionWeights)]
 
-        choice = choice.chord.duplicateChord()
+        choice = choice.chord.clone()
 
         return choice
     }

@@ -14,7 +14,7 @@ class BeatPattern {
     randomizeBeat() {
         this.mainBeat = []
         let randomMap = []
-        for (let i = 0; i < 5; i++) {
+        for (let i = 1; i < 5; i++) {
             let val = 2**(i+1) 
             let subtotal = 0
             while(subtotal < 32) {
@@ -59,9 +59,11 @@ class BeatPattern {
             return { ...beatItem, weight: Math.round(beatItem.weight * scaleContrast) }
         })
 
-        newBeat = newBeat.filter( (beatItem) => { return beatItem.weight > differenceContrast**2} )
+        //newBeat = newBeat.filter( (beatItem) => { return beatItem.weight > differenceContrast**2} )
 
         clone.mainBeat = newBeat
+
+        
 
         return clone
     }

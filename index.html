@@ -2,38 +2,55 @@
 
 <body>
     <style>
-        * { text-align: center; margin: 0; padding: 0; }
-        
-        
+        * {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+
         .column {
             display: inline-block;
             width: 40%;
         }
     </style>
 
-<h1>Apollo's Lyre v.0.0.3</h1>
-<p>Music Broken Into Math- Creates a randomly influenced song- by Broken Record</p>
-    
+    <h1>Apollo's Lyre v.0.0.4</h1>
+    <h3>Creates a randomly influenced song</h3>
+    <p>by Broken Record</p>
+
     <div>
         <div>
-            <button onclick="initSong(this)" data-genre="dancejam">Dance Jam</button>
-            <button onclick="initSong(this)" data-genre="danceballad">Dance Ballad</button>
-            <button onclick="initSong(this)" data-genre="rapbeat">Rap Beat</button>
-            <button onclick="initSong(this)" data-genre="sleepy">Sleepy Time</button>
-            <button onclick="initSong(this)" data-genre="spooky">Spooky Cave</button>
-            <button onclick="initSong(this)" data-genre="danger">Danger</button>
-            
-            <div class="slidecontainer"> Bpm:
-                <input type="range" min="80" max="160" value="100" class="slider" id="bpmControl" onchange="changeTempo()">
+            <div id="genres" style="display:block;">
+                Genres:<br />
+                <button onclick="initSong(this)" data-genre="dancejam">Dance Jam</button>
+                <button onclick="initSong(this)" data-genre="danceballad">Dance Ballad</button>
+                <button onclick="initSong(this)" data-genre="rapbeat">Rap Beat</button>
+                <button onclick="initSong(this)" data-genre="sleepy">Sleepy Time</button>
+
+                <br />Video Game<br />
+                <button onclick="initSong(this)" data-genre="hometown">Small Town</button>
+                <button onclick="initSong(this)" data-genre="hometown">Big Town</button>
+                <button onclick="initSong(this)" data-genre="meadow">Meadow</button>
+                <button onclick="initSong(this)" data-genre="sea">Sea</button>
+                <button onclick="initSong(this)" data-genre="spooky">Spooky Cave</button>
+                <button onclick="initSong(this)" data-genre="danger">Danger</button>
+            </div>
+
+
+            <div id="controls" style="display:none;">
+                Controls:<br />
+                <button onclick="pause()">Pause</button>
+                <button onclick="play()">Play</button>
+                <button onclick="restart()">Restart</button>
+                <button onclick="window.location.reload(false)">Retry</button>
+                <br />
+                <audio id="audio" controls></audio>
             </div>
         </div>
     </div>
 
     <br />
-    Generated Progression: <div id="progression"></div>
-    Status: <div id="generateStatus"></div>
-
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
 
@@ -47,7 +64,7 @@
     <script src="./javascript/songPart.js"></script>
     <script src="./javascript/song.js"></script>
 
-    
+
     <script src="./javascript/instrumentList.js"></script>
     <script src="./javascript/genre.js"></script>
     <script src="./javascript/music.js"></script>
@@ -56,19 +73,38 @@
     <script>
 
         let statusElement = document.getElementById('generateStatus')
+        let audio = document.getElementById('audio')
+        let actx = Tone.context;
+
+        //start recording
+        const dest = actx.createMediaStreamDestination();
+        const recorder = new MediaRecorder(dest.stream);
+        comp.connect(dest)
+
+        const chunks = [];
+
+        recorder.ondataavailable = evt => chunks.push(evt.data);
+
+        recorder.onstop = evt => {
+            let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+            audio.src = URL.createObjectURL(blob);
+        };
 
         song = null
 
         function initSong(e) {
+            document.getElementById('controls').style.display = 'block'
+            document.getElementById('genres').style.display = 'none'
+
             let genre = getGenreMap(e.getAttribute('data-genre'))
-            
-            key = Math.round(( Math.random() * 7) + 1 )
-            console.log( genre )
+
+            key = Math.round((Math.random() * 7) + 1)
             instrumentWeight = genre.instrumentWeight
             musicSettings = new MusicSetting(genre)
-            song = new Song( key, genre.mode, musicSettings)
+            delete song
+            song = new Song(key, genre.mode, musicSettings)
 
-            document.getElementById('progression').innerHTML = song.printSong()
+            //document.getElementById('progression').innerHTML = song.printSong()
 
             playSong(genre.bpm)
 
@@ -82,6 +118,8 @@
 
         async function playSong(bpm) {
             console.log("Building Song")
+            
+            recorder.start()   
             await song.play()
             console.log("Done building")
             Tone.Transport.start()
@@ -89,6 +127,22 @@
             await Tone.start()
         }
 
+        function pause() {
+            recorder.stop()
+            Tone.Transport.pause()
+        }
+
+        function play() {
+            recorder.start()
+            Tone.Transport.start()
+        }
+
+        function restart() {
+            recorder.stop()
+            Tone.Transport.stop()
+            Tone.Transport.seconds = 0
+
+        }
 
     </script>
 

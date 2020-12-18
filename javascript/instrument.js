@@ -13,7 +13,7 @@ class Instrument {
         let synth = this.synth
         if (!note || !timing) { console.log("ERROR IN PLAYNOTE") }
         else {
-            Tone.Transport.scheduleOnce(function (time) {
+            Tone.Transport.schedule(function (time) {
                 synth.triggerAttackRelease(note, duration, time, volume)
             }, `${timing}b`);
         }

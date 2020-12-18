@@ -141,13 +141,12 @@ class Chord {
         this.changeBass(newBass)
     }
 
-    duplicateChord() {
-        let c = new Chord({root: this.root, 
-            bass: this.bass, 
-            notes: this.notes, 
-            name: this.name, 
-            func: this.func, 
-            flavor: this.flavor
+    clone() {
+        let c = new Chord({root: Number.parseInt(`${this.root}`),
+            bass: Number.parseInt(`${this.bass}`), 
+            notes: [...this.notes], 
+            func: Number.parseInt(`${this.func}`), 
+            flavor:  Number.parseInt(`${this.flavor}`)
         })
         c.alterFuncFlavor(0, 0)
         return c

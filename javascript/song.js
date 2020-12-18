@@ -40,35 +40,31 @@ class Song {
         let verse = chorus.clone()
 
         let chorusSettings = this.musicSettings.clone()
-        chorusSettings.scale('resonance', 4, chorusSettings.resonance)
-        chorusSettings.scale('repetition', 4, chorusSettings.resonance)
-        chorusSettings.scale('tension', -4, chorusSettings.resonance)
-        chorusSettings.scale('excitement', 4, chorusSettings.resonance)
-        console.log(chorusSettings)
+        chorusSettings.scale('resonance', 1, chorusSettings.resonance)
+        chorusSettings.scale('repetition', 1, chorusSettings.resonance)
         chorus.regenerate( chorusSettings )
 
         let verseSettings = this.musicSettings.clone()
-        verseSettings.scale('tension', 2, chorusSettings.tension)
-        verseSettings.scale('excitement', -5, chorusSettings.tension)
+        verseSettings.scale('tension', 1, chorusSettings.tension)
+        verseSettings.scale('excitement', -4, chorusSettings.tension)
         verse.regenerate( verseSettings )
 
         let bridge = verse.clone()
         let bridgeSettings = this.musicSettings.clone()
-        bridgeSettings.scale('tension', 5, chorusSettings.excitement)
-        bridgeSettings.scale('excitement', -5, chorusSettings.excitement)
+        bridgeSettings.scale('tension', 1, chorusSettings.excitement)
+        bridgeSettings.scale('excitement', -4, chorusSettings.excitement)
         bridge.regenerate( bridge.musicSettings, 'bridge' )
 
         let preChorus = chorus.clone()
         preChorus.regenerate( preChorus.musicSettings)
 
         let c1 = new SongPart(chorus, 'chorus')
-        let c2 = c1.secondChorus()
-        let c3 = c1.thirdChorus()
+        let c2 = c1.cloneAlter(2)
+        let c3 = c1.cloneAlter(4, true)
 
         let v = new SongPart(verse, 'verse')
-        let v1 = v.firstVerse()
-        let v1a = v.firstVersePart2()
-        let v2 = v.secondVerse()
+        let v1 = v.cloneAlter(-1)
+        let v2 = v.cloneAlter(1)
 
         let b = new SongPart(bridge, 'bridge')
 
@@ -79,13 +75,15 @@ class Song {
         if (chorusIntro) {
             this.songParts.push(c1)
         }
-
-
-        let doubleFirstVerse = this.musicSettings.compareFieldsRTF(['tension', 'repetition'], ['resonance', 'excitement'])
-        if (doubleFirstVerse) {
-            this.songParts.push(v1)
-        }
-        this.songParts.push(v1a)
+        else {
+            let doubleFirstVerse = this.musicSettings.compareFieldsRTF(['tension', 'repetition'], ['resonance', 'excitement'])
+            if (doubleFirstVerse) {
+                
+                let v1a = v.cloneAlter(-3)
+                this.songParts.push(v1a)
+            }
+        }  
+        this.songParts.push(v1)
 
         if (prechorus) { this.songParts.push(pc) }
         this.songParts.push(c1)
@@ -101,14 +99,18 @@ class Song {
 
         let insertBridge = this.musicSettings.compareFieldsRTF(['resonance', 'excitement', 'tension'], ['repetition', 'repetition'])
         if (insertBridge) {
+            let lastChord = c2.getChord(1, 4)
+            lastChord.alterFuncFlavor(1, 1)
             this.songParts.push(c2)
             this.songParts.push(b)
         } else {
-            this.songParts.push(c1)
+            this.songParts.push(c2)
             this.songParts.push(v2)
         }
 
+
         this.songParts.push(c3)
+
 
     }
 
@@ -136,9 +138,10 @@ class Song {
     }
 
     play() {
-        const now = Tone.now()
+        let now = Tone.now()
         let time = 0
-        let spacing = 8
+        let spacing = 16
+
 
         this.songParts.map(async (songPart, songPartIndex) => {
             time = songPart.playPart(now, time, spacing, songPartIndex, this)

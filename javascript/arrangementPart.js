@@ -33,7 +33,7 @@ class ArrangementPart {
         }
     }
 
-    melody(chord, beatIndex, weightRatio, sn) {
+    melody(chord, beatIndex, weightRatio, sn, r) {
         let chordChart = null
 
         switch (this.name) {
@@ -44,23 +44,25 @@ class ArrangementPart {
                 chordChart = [chord.printChordNote(1, sn, 6)]
                 break;
             case "bass":
-                chordChart = [chord.printChordNote(Math.round((beatIndex * weightRatio) % 3) + 1, sn, 2)]
+                chordChart = [chord.printChordNote(Math.round((beatIndex * weightRatio) % 3) + 1, sn, 1)]
                 break;
             case "harmony":
                 if (weightRatio > .5) {
-                    chordChart = [chord.printChord(4, sn)]
-                } else {
+                    chordChart = [chord.printChord(3, sn)]
+                } else if(weightRatio > .2) {
                     chordChart = [chord.printChordNote(1, sn, 3)]
+                } else {
+                    chordChart = [chord.printChordNote(2, sn, 3)]
                 }
                 break;
             case "melody":
-                chordChart = [chord.printScaleNote(Math.round((beatIndex * weightRatio) % 7) + 1, sn, 4)]
+                chordChart = [chord.printScaleNote(Math.round((beatIndex * r * weightRatio) % 7) + 1, sn, 5)]
                 break;
             case "fx":
                 chordChart = [chord.printChordNote(Math.round((beatIndex * weightRatio) % 3) + 1, sn, 5)]
                 break;
             case "vox":
-                chordChart = [chord.printScaleNote(Math.round((beatIndex * weightRatio) % 7) + 1, sn, 4)]
+                chordChart = [chord.printScaleNote(Math.round((beatIndex * r * weightRatio) % 7) + 1, sn, 4)]
                 break;
         }
         return chordChart[beatIndex % (chordChart.length)]
@@ -73,7 +75,7 @@ class ArrangementPart {
     //function playMelody() {
     playPart(e, songPartIndex, chord, i, now, time, spacing, mainChord, song) {
         //Apply the instrument weight
-        e = (instrumentWeight[this.name] / 100 * e) + songPartIndex
+        //e = (instrumentWeight[this.name] / 100 * e) + songPartIndex
         e = bound(e, 1, 10)
 
         let beatPattern = this.beatPattern
@@ -82,8 +84,8 @@ class ArrangementPart {
 
         let useChord = null
 
-        let mainChordChoice = ['hat', 'kick', 'fx', 'melody']
-        let chordyChoice = ['harmony', 'bass', 'vox']
+        let mainChordChoice = ['hat', 'kick']
+        let chordyChoice = ['harmony', 'bass', 'fx']
 
         if (chordyChoice.includes(this.name)) { useChord = chord }
         else if (mainChordChoice.includes(this.name)) { useChord = mainChord }
@@ -97,15 +99,15 @@ class ArrangementPart {
             let w = Number.parseInt(beatItem.weight)
             let sn = song.scaleNotes
 
-            let repeat = [1, 2, 4, 8][4 - Math.floor(Math.sqrt(beatPattern.repetition * 2))]
+            let repeat = [1, 2, 4, 8][4 - Math.floor(Math.sqrt(beatPattern.musicSettings.repetition * 2))]
 
-            let r = Math.round(((i + Math.round(Math.sqrt(e))) % repeat) * (e / 3))
+            let r = Math.round(((i + Math.round(Math.sqrt(e))) % repeat)) + 1
 
             let timing = (now + time + (p / spacing))
 
             let weightRatio = w / highestWeight
 
-            let melody = this.melody(chord, beatIndex, weightRatio, sn)
+            let melody = this.melody(chord, beatIndex, weightRatio, sn, r)
 
             this.instrument.playNote(melody, timing, .5 + weightRatio / 2, '8n')
 
