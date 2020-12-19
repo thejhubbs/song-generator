@@ -31,6 +31,7 @@ class ArrangementPart {
                 break;
             case "vox":
                 this.instrument = voxSynth
+                this.layer = vox2Synth
                 break;
         }
     }

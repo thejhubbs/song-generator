@@ -37,7 +37,7 @@ function getGenreMap(kind) {
                     bass: 60,
                     harmony: 100,
                     melody: 200,
-                    fx: 10,
+                    fx: 100,
                     vox: 200
                 }
             }

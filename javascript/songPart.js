@@ -98,13 +98,13 @@ class SongPart {
         let melodySettings = this.musicSettings.clone()
 
         this.arrangements = [
-            new ArrangementPart('kick', p1),
+            //new ArrangementPart('kick', p1),
             //new ArrangementPart('hat', p2),
-            new ArrangementPart('bass', p3),
+            //new ArrangementPart('bass', p3),
             new ArrangementPart('harmony', p4),
             new ArrangementPart('melody', new BeatPattern(melodySettings).cloneAlter( instrumentWeight['melody'] / 10 )),
             new ArrangementPart('fx', new BeatPattern(melodySettings).cloneAlter(instrumentWeight['fx'] / 10)),
-            //new ArrangementPart('vox', p5),
+            new ArrangementPart('vox', p5),
         ]
     }
 

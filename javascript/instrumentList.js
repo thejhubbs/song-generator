@@ -7,9 +7,6 @@ const comp = new Tone.Compressor(-30, 1).toDestination()
 // const hatFilter = new Tone.EQ3(-100, -100, 2).connect(comp);
 // const snareFilter = new Tone.EQ3(2, 0, -100).connect(comp);
 
-// const voxFilter = new Tone.EQ3(5, 2, 5).connect(comp);
-// const vibratoFx = new Tone.Vibrato(5, .1).connect(voxFilter);
-// const chorusFx = new Tone.Chorus(4, 2.5, 0.5).connect(vibratoFx);
 
 
 //const rChFx = new Tone.Reverb(1).connect(harmonyFilter);
@@ -79,9 +76,55 @@ let bassOptions = {
 let bassDistortion = new Tone.Distortion(.05).connect(comp);
 let bassFilter = new Tone.EQ3(-10, -300, -1000).connect(bassDistortion);
 let bassSynth = new Instrument(Tone.Synth, bassFilter, 0, bassOptions)
-// let voxSynth = new Instrument(Tone.Synth, chorusFx, -5)
 
 
+let voxOptions = {
+    oscillator: {
+        type: 'fatsawtooth',
+        spread: 20,
+        count: 7,
+        detune: -1200
+    },
+    envelope: {
+        attack: .1,
+        release: 1
+    }
+}
+const voxFilter = new Tone.EQ3(-50, 0, -50).connect(comp);
+const vibratoFx = new Tone.Vibrato(5, .1).connect(voxFilter);
+const chorusFx = new Tone.Chorus(4, 2.5, 0.5).connect(vibratoFx);
+let voxSynth = new Instrument(Tone.Synth, chorusFx, -5, voxOptions)
+
+
+let vox2Options = {
+    oscillator: {
+        type: 'square',
+        //detune: -1200
+    },
+    // envelope: {
+    //     attack: .1,
+    //     release: 1
+    // }
+}
+const vox2Filter = new Tone.EQ3(0, 0, -15).connect(comp);
+//const vibrato2Fx = new Tone.Vibrato(5, .1).connect(vox2Filter);
+const chorus2Fx = new Tone.Chorus(4, 2.5, 0.5).connect(vox2Filter);
+let vox2Synth = new Instrument(Tone.Synth, chorus2Fx, -5, vox2Options)
+
+let vox3Options = {
+    oscillator: {
+        type: 'triangle',
+        detune: 1200
+    },
+    envelope: {
+        attack: .1,
+        release: 1
+    }
+}
+const reverb3Fx = new Tone.Reverb(.5).connect(comp);
+const vox3Filter = new Tone.EQ3(-100, 0, -15).connect(reverb3Fx);
+const vibrato3Fx = new Tone.Vibrato(5, .1).connect(vox3Filter);
+let vox3Synth = new Instrument(Tone.Synth, vibrato3Fx, -10, vox3Options)
 
 let fxOptions = {
     oscillator: {
