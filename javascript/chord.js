@@ -125,7 +125,7 @@ class Chord {
 
     printChord(octave, scaleNotes) {
         if(!scaleNotes) { console.log("Error") }
-        let harmonyNotes = this.printScaleNotesOctave( [...this.notes], octave, scaleNotes)
+        let harmonyNotes = this.printScaleNotesOctave( [...this.notes].splice(0, 3), octave, scaleNotes)
 
         return harmonyNotes
     }

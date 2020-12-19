@@ -4,20 +4,20 @@ function getGenreMap(kind) {
         case 'rapbeat':
             map = {
                 mode: [3, 6, 3],
-                resonance: [6, 8],
+                resonance: [3, 5],
                 tension: [5, 7],
                 repetition: [3, 4],
-                excitement: [4, 8],
+                excitement: [3, 6],
                 spread: [4, 6],
                 bpm: [85, 95],
                 instrumentWeight: {
                     kick: 150,
                     hat: 100,
-                    bass: 200,
+                    bass: 100,
                     harmony: 20,
-                    melody: 100,
+                    melody: 70,
                     fx: 40,
-                    vox: 20
+                    vox: 70
                 }
             }
             break;

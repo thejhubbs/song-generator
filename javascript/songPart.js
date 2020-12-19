@@ -104,7 +104,7 @@ class SongPart {
             new ArrangementPart('harmony', p4),
             new ArrangementPart('melody', new BeatPattern(melodySettings).cloneAlter( instrumentWeight['melody'] / 10 )),
             new ArrangementPart('fx', new BeatPattern(melodySettings).cloneAlter(instrumentWeight['fx'] / 10)),
-            new ArrangementPart('vox', p5),
+            //new ArrangementPart('vox', p5),
         ]
     }
 

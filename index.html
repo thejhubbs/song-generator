@@ -35,6 +35,11 @@
                 <button onclick="initSong(this)" data-genre="sea">Sea</button>
                 <button onclick="initSong(this)" data-genre="spooky">Spooky Cave</button>
                 <button onclick="initSong(this)" data-genre="danger">Danger</button>
+
+                <br />
+                OR:
+                <br />
+                <button>Upload an .aly File</button>
             </div>
 
 
@@ -45,8 +50,23 @@
                 <button onclick="restart()">Restart</button>
                 <button onclick="window.location.reload(false)">Retry</button>
                 <br />
-                <audio id="audio" controls></audio>
+                <div class="column">
+                    <h3>To Export as OGG media file (Playable on computer)</h3>
+                    <p>Let it play all the way through the first time- then click "Restart" (this is recording phase)
+                    </p>
+                    <p>After that, click on the play button below and let it play through again (this is processing
+                        phase)</p>
+                    <p>The option to download will appear.</p>
+                    <audio id="audio" controls></audio>\
+                </div>
+                <div class="column">
+                    <h3>To Save & and Edit Later</h3>
+                    You cannot play this on a computer, but can upload this back to this website to edit it again.
+                    <br /><button onclick="downloadFile()">Download an .aly File</button>
+                </div>
             </div>
+
+
         </div>
     </div>
 
@@ -118,8 +138,8 @@
 
         async function playSong(bpm) {
             console.log("Building Song")
-            
-            recorder.start()   
+
+            recorder.start()
             await song.play()
             console.log("Done building")
             Tone.Transport.start()
@@ -142,6 +162,12 @@
             Tone.Transport.stop()
             Tone.Transport.seconds = 0
 
+        }
+
+        function downloadFile() {
+            let songString = JSON.stringify(song.printSong())
+            console.log(songString)
+            location.href = "data:application/octet-stream," + encodeURIComponent(songString);
         }
 
     </script>

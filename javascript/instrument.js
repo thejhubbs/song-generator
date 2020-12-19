@@ -1,10 +1,12 @@
 class Instrument {
-    constructor(synthType, filter, volume, synth = null) {
+    constructor(synthType, filter, volume, options = null, synth = null) {
         if (synth) {
             this.synth = synth
         } else {
-            let s = new Tone.PolySynth(synthType).connect(filter)
+            let s = new Tone.PolySynth(synthType)
+            s.connect(filter)
             s.volume.value = volume
+            if(options) { s.set(options) }
             this.synth = s
         }
     }
