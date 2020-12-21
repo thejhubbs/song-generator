@@ -1,0 +1,28 @@
+Song- key, scale, and other information for the song
+MusicSetting
+
+    SongPart- chorus, verse, bridge, or prechorus
+    MusicSetting
+    BeatPattern
+
+        Progressions- stores & generates chords
+        MusicSetting
+        Chords
+        
+        ArrangementParts- stores & generates melodies, beats, and instruments
+        MusicSetting
+        BeatPattern
+        
+
+Board
+    Instrument
+
+
+Music Classes
+Chromatic Scale
+Scales
+ChordLibrary
+
+Extra Classes
+Genre Presets
+Utility

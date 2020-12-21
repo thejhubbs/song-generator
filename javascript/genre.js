@@ -1,5 +1,8 @@
 function getGenreMap(kind) {
     let map = null
+
+    ///MusicSetting ranges, a bpm range, and instrumentWeight
+
     switch (kind) {
         case 'rapbeat':
             map = {
@@ -11,13 +14,16 @@ function getGenreMap(kind) {
                 spread: [4, 6],
                 bpm: [85, 95],
                 instrumentWeight: {
-                    kick: 150,
-                    hat: 100,
+                    kick: 30,
+                    hat: 30,
+                    snare: 30,
+                    toms: 100,
                     bass: 100,
-                    harmony: 20,
+                    harmony: 30,
+                    arpeggio: 100,
                     melody: 70,
-                    fx: 40,
-                    vox: 70
+                    fx: 50,
+                    vox: 30
                 }
             }
             break;
@@ -34,8 +40,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 20,
                     hat: 40,
+                    snare: 25,
+                    toms: 40,
                     bass: 60,
                     harmony: 100,
+                    arpeggio: 0,
                     melody: 200,
                     fx: 100,
                     vox: 200
@@ -54,8 +63,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 80,
                     hat: 100,
+                    snare: 25,
+                    toms: 40,
                     bass: 60,
                     harmony: 60,
+                    arpeggio: 60,
                     melody: 10,
                     fx: 10,
                     vox: 60
@@ -75,8 +87,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 80,
                     hat: 100,
+                    snare: 25,
+                    toms: 40,
                     bass: 200,
                     harmony: 20,
+                    arpeggio: 0,
                     melody: 50,
                     fx: 10,
                     vox: 10
@@ -96,8 +111,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 80,
                     hat: 100,
+                    snare: 25,
+                    toms: 40,
                     bass: 80,
                     harmony: 50,
+                    arpeggio: 0,
                     melody: 140,
                     fx: 10,
                     vox: 100
@@ -117,8 +135,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 20,
                     hat: 100,
+                    snare: 25,
+                    toms: 40,
                     bass: 100,
                     harmony: 20,
+                    arpeggio: 0,
                     melody: 200,
                     fx: 0,
                     vox: 200
@@ -138,8 +159,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 40,
                     hat: 40,
+                    snare: 25,
+                    toms: 40,
                     bass: 60,
                     harmony: 100,
+                    arpeggio: 0,
                     melody: 100,
                     fx: 10,
                     vox: 200
@@ -159,8 +183,11 @@ function getGenreMap(kind) {
                     instrumentWeight: {
                         kick: 70,
                         hat: 40,
+                        snare: 25,
+                        toms: 40,
                         bass: 70,
                         harmony: 50,
+                        arpeggio: 0,
                         melody: 100,
                         fx: 50,
                         vox: 100
@@ -180,8 +207,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 40,
                     hat: 40,
+                    snare: 25,
+                    toms: 40,
                     bass: 60,
                     harmony: 100,
+                    arpeggio: 0,
                     melody: 200,
                     fx: 10,
                     vox: 200
@@ -202,8 +232,11 @@ function getGenreMap(kind) {
                 instrumentWeight: {
                     kick: 100,
                     hat: 40,
+                    snare: 25,
+                    toms: 40,
                     bass: 100,
                     harmony: 100,
+                    arpeggio: 0,
                     melody: 100,
                     fx: 40,
                     vox: 100

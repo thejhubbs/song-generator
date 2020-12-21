@@ -13,7 +13,7 @@ class SongPart {
 
         //if AT least progressions is provided, that means it's a clone, and beatPattern & arrangements must be provided
         progressions ? this.cloneNew(progressions, beatPattern) : this.processNew()
-        arrangements ? this.cloneArrangements(arrangements) : this.generateArrangements() 
+        arrangements ? this.cloneArrangements(arrangements) : this.generateArrangements()
 
 
     }
@@ -89,23 +89,32 @@ class SongPart {
     }
 
     generateArrangements() {
-        let p1 = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight['kick'] / 10)
-        let p2 = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight['hat'] / 10)
-        let p3 = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight['bass'] / 10)
-        let p4 = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight['harmony'] / 10)
-        let p5 = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight['vox'] / 10)
 
-        let melodySettings = this.musicSettings.clone()
+        let newArrangements = []
 
-        this.arrangements = [
-            //new ArrangementPart('kick', p1),
-            //new ArrangementPart('hat', p2),
-            //new ArrangementPart('bass', p3),
-            new ArrangementPart('harmony', p4),
-            new ArrangementPart('melody', new BeatPattern(melodySettings).cloneAlter( instrumentWeight['melody'] / 10 )),
-            new ArrangementPart('fx', new BeatPattern(melodySettings).cloneAlter(instrumentWeight['fx'] / 10)),
-            new ArrangementPart('vox', p5),
-        ]
+        instrumentList.map( (i) => {
+            let bp = null
+            switch(i.beatStyle) {
+                case('beat'):
+                case('offbeat'):
+                    bp = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight[i.name] / 10)
+                    break;
+                case('melody'):
+                case('spreadmelody'):
+                    bp = new BeatPattern(this.musicSettings.clone()).cloneAlter(instrumentWeight[i.name] / 10)
+                    break;
+                case('beatmelody'):
+                case('offbeatmelody'):
+                    bp = this.beatPattern.cloneRandomize(this.musicSettings.resonance).cloneAlter(instrumentWeight[i.name] / 10)
+                    break;
+            }
+
+            newArrangements.push( new ArrangementPart(i.name, bp) )
+        })
+
+        this.arrangements = newArrangements
+        
+        
     }
 
     cloneArrangements(arrangements) {
@@ -166,7 +175,10 @@ class SongPart {
             let e = this.musicSettings.excitement + (Math.round(Math.sqrt(this.musicSettings.excitement)) * (i / 2 - 4))
             e = bound(e, 1, 10)
 
-            this.arrangements.map((p) => p.playPart(e, songPartIndex, chord, i, now, time, spacing, progressionMainChord, song))
+            this.arrangements.map((p) => {
+                    p.playPart(e, songPartIndex, chord, i, now, time, spacing, progressionMainChord, song)
+                 
+            })
 
             time += 2
         })

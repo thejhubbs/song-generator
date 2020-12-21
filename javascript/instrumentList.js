@@ -1,37 +1,32 @@
-
-
 const comp = new Tone.Compressor(-30, 1).toDestination()
-
-
-// const lowFilter = new Tone.EQ3(1, -10, -100).connect(comp);
-// const hatFilter = new Tone.EQ3(-100, -100, 2).connect(comp);
-// const snareFilter = new Tone.EQ3(2, 0, -100).connect(comp);
-
-
-
-//const rChFx = new Tone.Reverb(1).connect(harmonyFilter);
-// const phaser = new Tone.Phaser({
-// 	frequency: 30,
-// 	octaves: 6,
-// 	baseFrequency: 1000
-// }).connect(rChFx)
-//const hChFx = new Tone.Chorus(4, 2.5, .5).connect(harmonyFilter);
-
 
 let harmonyOptions = {
     oscillator: {
         type: 'fatsawtooth',
-        spread: 70,
+        spread: 40,
         count: 7
     },
     envelope: {
-        attack: .5,
-        release: .5
+        attack: .01,
+        release: .1
     }
 }
-let harmonyReverb = new Tone.Reverb(.6).connect(comp)
-let harmonyFilter = new Tone.EQ3(-10, 0, -45).connect(harmonyReverb);
-let harmonySynth = new Instrument(Tone.Synth, harmonyFilter, 0, harmonyOptions)
+
+let harmonyFilter = new Tone.EQ3(-100, -25, -25).connect(comp);
+let harmonySynth = new Instrument(Tone.Synth, harmonyFilter, 2, harmonyOptions)
+
+let arpOptions = {
+    oscillator: {
+        type: 'sawtooth',
+    },
+    envelope: {
+        attack: .001,
+        release: .1
+    }
+}
+
+let arpFilter = new Tone.EQ3(-100, -25, -25).connect(comp);
+let arpSynth = new Instrument(Tone.Synth, arpFilter, 2, arpOptions)
 
 let melodyOptions = {
     oscillator: {
@@ -40,28 +35,13 @@ let melodyOptions = {
     },
     envelope: {
         attack: .001,
-        release: 1
+        release: .01
     }
 }
-//let melodyReverb = new Tone.Reverb(1).connect(comp)
-let melodyChorus = new Tone.Distortion(.1).connect(comp);
-let melodyFilter = new Tone.EQ3(-50, -20, -20).connect(melodyChorus);
+
+let melodyFilter = new Tone.EQ3(-50, -20, -20).connect(comp);
 let melodySynth = new Instrument(Tone.Synth, melodyFilter, 0, melodyOptions)
 
-let melodyBOptions = {
-    oscillator: {
-        type: 'triangle',
-        detune: 1200
-    },
-    envelope: {
-        attack: .1,
-        release: 3
-    }
-}
-let melodyBReverb = new Tone.Reverb(2).connect(comp)
-let melodyBVibrato = new Tone.Vibrato(10, .05).connect(comp);
-let melodyBFilter = new Tone.EQ3(-50, -15, -10).connect(melodyBVibrato);
-let melodyBSynth = new Instrument(Tone.Synth, melodyBFilter, 0, melodyBOptions)
 
 let bassOptions = {
     oscillator: {
@@ -73,30 +53,11 @@ let bassOptions = {
     // }
 }
 
-let bassDistortion = new Tone.Distortion(.05).connect(comp);
-let bassFilter = new Tone.EQ3(-10, -300, -1000).connect(bassDistortion);
+let bassFilter = new Tone.EQ3(-10, -300, -1000).connect(comp);
 let bassSynth = new Instrument(Tone.Synth, bassFilter, 0, bassOptions)
 
 
 let voxOptions = {
-    oscillator: {
-        type: 'fatsawtooth',
-        spread: 20,
-        count: 7,
-        detune: -1200
-    },
-    envelope: {
-        attack: .1,
-        release: 1
-    }
-}
-const voxFilter = new Tone.EQ3(-50, 0, -50).connect(comp);
-const vibratoFx = new Tone.Vibrato(5, .1).connect(voxFilter);
-const chorusFx = new Tone.Chorus(4, 2.5, 0.5).connect(vibratoFx);
-let voxSynth = new Instrument(Tone.Synth, chorusFx, -5, voxOptions)
-
-
-let vox2Options = {
     oscillator: {
         type: 'square',
         //detune: -1200
@@ -106,25 +67,8 @@ let vox2Options = {
     //     release: 1
     // }
 }
-const vox2Filter = new Tone.EQ3(0, 0, -15).connect(comp);
-//const vibrato2Fx = new Tone.Vibrato(5, .1).connect(vox2Filter);
-const chorus2Fx = new Tone.Chorus(4, 2.5, 0.5).connect(vox2Filter);
-let vox2Synth = new Instrument(Tone.Synth, chorus2Fx, -5, vox2Options)
-
-let vox3Options = {
-    oscillator: {
-        type: 'triangle',
-        detune: 1200
-    },
-    envelope: {
-        attack: .1,
-        release: 1
-    }
-}
-const reverb3Fx = new Tone.Reverb(.5).connect(comp);
-const vox3Filter = new Tone.EQ3(-100, 0, -15).connect(reverb3Fx);
-const vibrato3Fx = new Tone.Vibrato(5, .1).connect(vox3Filter);
-let vox3Synth = new Instrument(Tone.Synth, vibrato3Fx, -10, vox3Options)
+const voxFilter = new Tone.EQ3(-15, -4, -15).connect(comp);
+let voxSynth = new Instrument(Tone.Synth, voxFilter, -5, voxOptions)
 
 let fxOptions = {
     oscillator: {
@@ -133,30 +77,173 @@ let fxOptions = {
     },
     envelope: {
         attack: .1,
-        release: 1
+        release: .1
     }
 }
 
 const fxFilter = new Tone.EQ3(-100, -20, -10).connect(comp);
-const fxReverb = new Tone.Reverb(5).connect(fxFilter);
-let fxSynth = new Instrument(Tone.Synth, fxReverb, -2, fxOptions)
+let fxSynth = new Instrument(Tone.Synth, fxFilter, -2, fxOptions)
 
-
-let fxBOptions = {
-    oscillator: {
-        type: 'sine',
-        detune: -1200
-    },
-    envelope: {
-    }
-}
-
-const fxBFilter = new Tone.EQ3(-50, -10, -20).connect(comp);
-const fxBReverb = new Tone.Reverb(1).connect(fxBFilter);
-let fxBSynth = new Instrument(Tone.Synth, fxBFilter, 0, fxOptions)
-
+let drumSettings = { envelope: { attack: .0001, release: .1 }}
+let hatSettings = { envelope: { attack: .0001, release: .1 }}
 
 let kickFilter = new Tone.EQ3(1, -100, -100).connect(comp);
-let kickDrum = new Instrument(Tone.MembraneSynth, kickFilter, -3)
-// let snareDrum = new Instrument(Tone.MembraneSynth, snareFilter, -10)
-// let hatDrum = new Instrument(Tone.MetalSynth, hatFilter, -25)
+let snareFilter = new Tone.EQ3(1, 0, 0).connect(comp);
+
+let hatFilter = new Tone.EQ3(-100, -15, -5).connect(comp);
+let kickDrum = new Instrument(Tone.MembraneSynth, kickFilter, -3, drumSettings)
+let snareDrum = new Instrument(Tone.MembraneSynth, snareFilter, -10, drumSettings)
+let tomsDrum = new Instrument(Tone.MembraneSynth, snareFilter, -10)
+let hatDrum = new Instrument(Tone.MetalSynth, hatFilter, -40, hatSettings)
+
+
+instrumentList = [
+    {
+        name: "kick",
+        instrument: kickDrum,
+        volume: -5,
+        filter: [0, 0, 0],
+        fx1: ['Distortion', [1]],
+        noteStyle: '32n',
+        chordStyle: 'key',
+        beatStyle: "beat",
+        shortcut: '7',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote(1, sn, 1)] }
+    },
+
+    {
+        name: "snare",
+        instrument: snareDrum,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '16n',
+        chordStyle: 'key',
+        beatStyle: "offbeat",
+        shortcut: '8',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote(1, sn, 3)] }
+    },
+
+    {
+        name: "toms",
+        instrument: tomsDrum,
+        volume: false,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '16n',
+        chordStyle: 'key',
+        shortcut: '9',
+        beatStyle: "offbeatmelody",
+        noteArray: (chord, sn, x) => { return [chord.printChordNote(3, sn, 3), chord.printChordNote(3, sn, 2), chord.printChordNote(2, sn, 2), chord.printChordNote(1, sn, 2)] }
+    },
+    
+    {
+        name: "hat",
+        instrument: hatDrum,
+        volume: -10,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '32n',
+        chordStyle: 'key',
+        beatStyle: "melody",
+        shortcut: '4',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote(1, sn, 6)] }
+    },
+
+    {
+        name: "bass",
+        instrument: bassSynth,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: 'full',
+        chordStyle: 'chord',
+        beatStyle: "beatmelody",
+        shortcut: '5',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote(1, sn, 1), chord.printChordNote((x % 4) + 1, sn, 1), chord.printScaleNote((x % 7) + 1, sn, 1)] }
+    },
+
+    {
+        name: "harmony",
+        instrument: harmonySynth,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '16n',
+        chordStyle: 'chord',
+        beatStyle: "beat",
+        shortcut: '6',
+        noteArray: (chord, sn, x) => { return [chord.printChord(4, sn), null] }
+    },
+
+    {
+        name: "arpeggio",
+        instrument: arpSynth,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '32n',
+        chordStyle: 'chord',
+        beatStyle: "spreadmelody",
+        shortcut: '1',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote( ( x % 6 ) + 1, sn, 3), null] }
+    },
+
+
+    {
+        name: "melody",
+        instrument: melodySynth,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: 'half',
+        chordStyle: 'chord',
+        beatStyle: "beatmelody",
+        shortcut: '2',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote((x % 6) + 1, sn, 4), chord.printScaleNote((x % 7) + 1, sn, 4), chord.printChordNote((x % 3) + 1, sn, 4)] }
+    },
+
+    {
+        name: "vox",
+        instrument: voxSynth,
+        volume: -15,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: 'full',
+        chordStyle: 'key',
+        beatStyle: "melody",
+        shortcut: '3',
+        noteArray: (chord, sn, x) => { return [chord.printScaleNote((x % 7) + 1, sn, 4)] }
+    },
+
+    {
+        name: "fx",
+        instrument: fxSynth,
+        volume: 0,
+        filter: [0, 0, 0],
+        fx1: ['', []],
+        noteStyle: '16n',
+        chordStyle: 'key',
+        beatStyle: "beat",
+        shortcut: '0',
+        noteArray: (chord, sn, x) => { return [chord.printChordNote((x % 3) + 1, sn, 5)] }
+    },
+]
+
+//BeatStyle-
+//Beat- low spread with beatPattern
+//Offbeat- low spread but shifted with beatPattern
+//Melody- high spread, high randomness off beatPattern
+//BeatMelody- high spread with beatPattern
+//OffBeatMelody- beatMelody but shifted
+//Spreadmelody- very high spread melody
+
+//ChordStyle-
+//Key- always on key
+//Chord- always on chord
+//Random- switch up
+
+//NoteStyle-
+//Full- hold until the next note
+//Half- split the distance in two
+//8n, 16n, 32n- always play that note

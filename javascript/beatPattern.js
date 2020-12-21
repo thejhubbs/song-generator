@@ -4,7 +4,7 @@ class BeatPattern {
         this.excitement = musicSettings.excitement
         this.repetition = musicSettings.repetition
         if(beat) { 
-            this.mainBeat = beat 
+            this.mainBeat = beat.sort( (a, b) => a.position - b.position )
         }
         else { 
             this.randomizeBeat() 
@@ -40,12 +40,14 @@ class BeatPattern {
             let position = weightKeys[val]
             let copy = false
             
-            this.mainBeat.map( (b) => b.position === position ? copy = true : null) 
+            this.mainBeat.map( (b) => b.position === Number.parseInt(position) ? copy = true : null) 
             
             if(!copy) {
-                this.mainBeat.push({ position, weight }) 
+                this.mainBeat.push({ position: Number.parseInt(position), weight }) 
             }
         }
+
+        this.mainBeat = this.mainBeat.sort( (a, b) => a.position - b.position )
 
     }
 
@@ -61,7 +63,7 @@ class BeatPattern {
 
         //newBeat = newBeat.filter( (beatItem) => { return beatItem.weight > differenceContrast**2} )
 
-        clone.mainBeat = newBeat
+        clone.mainBeat = newBeat.sort( (a, b) => a.position - b.position )
 
         
 
@@ -84,7 +86,18 @@ class BeatPattern {
         let influenceBeat = influence.mainBeat.sort((a,b) => a.weight - b.weight)
         influenceBeat = influenceBeat.splice(0, amountFromNew)
 
-        influence.mainBeat = [...newBeat, ...influenceBeat] 
+
+        influenceBeat.map(  (iB)  =>  {
+            let copy = false
+            
+            newBeat.map( (b) => b.position === iB.position ? copy = true : null) 
+            
+            if(!copy) {
+                newBeat.push(iB) 
+            }
+        })
+
+        influence.mainBeat = newBeat.sort( (a, b) => a.position - b.position )
 
         return influence
     }

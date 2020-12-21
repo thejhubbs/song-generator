@@ -27,8 +27,11 @@ let funcFlavorMap = [
 let instrumentWeight = {
     kick: 80,
     hat: 80,
+    snare: 40,
+    toms: 40,
     bass: 100,
     harmony: 40,
+    arpeggio: 50,
     melody: 40,
     fx: 80,
     vox: 20

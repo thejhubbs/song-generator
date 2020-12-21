@@ -9,13 +9,18 @@
         }
 
 
-        .column {
+        .instrumentBoardBlock {
+            border: 2px solid black;
+            width: 25%;
             display: inline-block;
-            width: 40%;
+            padding: 1%;
+            margin: 1%;
         }
+
+        input[type='checkbox'] { width:50px; height: 50px; }
     </style>
 
-    <h1>Apollo's Lyre v.0.0.4</h1>
+    <h1>Apollo's Lyre v.0.0.5</h1>
     <h3>Creates a randomly influenced song</h3>
     <p>by Broken Record</p>
 
@@ -49,25 +54,34 @@
                 <button onclick="play()">Play</button>
                 <button onclick="restart()">Restart</button>
                 <button onclick="window.location.reload(false)">Retry</button>
+                <audio id="audio" controls></audio>
                 <br />
-                <div class="column">
+                <!--div class="column">
                     <h3>To Export as OGG media file (Playable on computer)</h3>
                     <p>Let it play all the way through the first time- then click "Restart" (this is recording phase)
                     </p>
                     <p>After that, click on the play button below and let it play through again (this is processing
                         phase)</p>
                     <p>The option to download will appear.</p>
-                    <audio id="audio" controls></audio>\
+                    <audio id="audio" controls></audio>
                 </div>
                 <div class="column">
                     <h3>To Save & and Edit Later</h3>
                     You cannot play this on a computer, but can upload this back to this website to edit it again.
                     <br /><button onclick="downloadFile()">Download an .aly File</button>
-                </div>
+                </div-->
             </div>
 
 
         </div>
+
+        <div id="board">
+
+
+        </div>
+
+
+
     </div>
 
     <br />
@@ -75,6 +89,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
 
     <script src="./javascript/musicSettings.js"></script>
+
+    <script src="./javascript/board.js"></script>
 
     <script src="./javascript/chord.js"></script>
     <script src="./javascript/instrument.js"></script>
@@ -93,6 +109,11 @@
     <script>
 
         let statusElement = document.getElementById('generateStatus')
+        let boardElement = document.getElementById('board')
+        let board = new Board()
+
+        board.printBoard(boardElement)
+
         let audio = document.getElementById('audio')
         let actx = Tone.context;
 

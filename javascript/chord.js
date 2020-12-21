@@ -93,9 +93,9 @@ class Chord {
         return note + octave
     }
 
-    printScaleNotes(numberArray, scaleNotes) {
+    printScaleNotes(numberArray, scaleNotes, baseOctave) {
         if(!scaleNotes) { console.log("Error") }
-        return numberArray.map((n) => this.printScaleNote(n, scaleNotes))
+        return numberArray.map((n) => this.printScaleNote(n, scaleNotes, baseOctave))
     }
 
     printScaleNoteOctave(number, octave, scaleNotes) {
@@ -125,7 +125,8 @@ class Chord {
 
     printChord(octave, scaleNotes) {
         if(!scaleNotes) { console.log("Error") }
-        let harmonyNotes = this.printScaleNotesOctave( [...this.notes].splice(0, 3), octave, scaleNotes)
+        let chordNotes = [...this.notes, ...this.notes.map((n) => n+7) ].splice(0, 6)
+        let harmonyNotes = this.printScaleNotes( chordNotes, scaleNotes, octave)
 
         return harmonyNotes
     }
