@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let sleepyInstrumentWeight = new InstrumentWeight()
 
 let sleepyGenre = new GenreParent({ 
+    name: 'sleepy',
+    category: "genre",
+    
     modes:  [1],  
     bpms: [40, 60],
     moodChipRanges: {
@@ -13,6 +19,7 @@ let sleepyGenre = new GenreParent({
     instrumentList: sleepyInstrumentWeight
 })
 
+export default sleepyGenre
     //             instrumentWeight: {
     //                 kick: 20,
     //                 hat: 100,

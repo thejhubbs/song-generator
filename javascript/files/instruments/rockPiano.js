@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const rockPianoOutput = () => {
     let arpOptions = {
@@ -31,3 +34,5 @@ const rockPiano = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition( ( x % 6 ) + 1, sn, 3)] }
     }
 }
+
+export default rockPiano

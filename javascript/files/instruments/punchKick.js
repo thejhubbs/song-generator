@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const punchKickOutput = () => {
     let kickFilter = new Tone.EQ3(2, -100, -100).connect(comp);
@@ -11,7 +14,7 @@ const punchKick = () => {
         name: "punchKick",
         part: "kick",
         kind: "drum",
-        instrument: basicKickOutput(),
+        instrument: punchKickOutput(),
         volume: 5,
         filter: [0, 0, 0],
         fx1: ['Distortion', [1]],
@@ -22,3 +25,5 @@ const punchKick = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition(1, sn, 1)] }
     }
 }
+
+export default punchKick

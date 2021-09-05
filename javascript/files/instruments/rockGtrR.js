@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 const rockGtrROutput = () => {
     let harmonyOptions = {
         oscillator: {
@@ -32,3 +35,5 @@ const rockGtrR = () => {
         noteArray: (chord, sn, x) => { return [ [chord.printNoteFromChordPosition(1, sn, 3), chord.printNoteFromChordPosition(3, sn, 4)], chord.printNoteFromChordPosition(1, sn, 2)] }
     }
 }
+
+export default rockGtrR

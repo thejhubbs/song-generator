@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const rockBassOutput = () => {
     let bassOptions = {
@@ -32,3 +35,5 @@ const rockBass = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition(1, sn, 1), chord.printNoteFromScalePosition((x % 7) + 1, sn, 1), chord.printNoteFromScalePosition((x % 7) + 1, sn, 1)] }
     }
 }
+
+export default rockBass

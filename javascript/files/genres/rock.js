@@ -1,3 +1,7 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
+
 let rockInstrumentWeight = new InstrumentWeight()
 
 rockInstrumentWeight.replaceInstrument('bass', 'bass', 'rockBass')
@@ -19,12 +23,12 @@ rockInstrumentWeight.changeWeight('harmony', 'rockPiano', 4)
 // rockInstrumentWeight.removeInstrument('melody')
 // rockInstrumentWeight.removeInstrument('fx')
 
-
-
-
 // rockInstrumentWeight.addInstrumentChoice('drums', 'kick', 'punchKick', 5, 6)
 
 let rockGenre = new GenreParent({ 
+    name: 'rock',
+    category: "genre",
+    
     modes: [1, 2, 3, 4, 5, 6],  
     bpms: [75, 95],
     moodChipRanges: {
@@ -36,3 +40,6 @@ let rockGenre = new GenreParent({
     },     
     instrumentList: rockInstrumentWeight
 })
+
+
+export default rockGenre

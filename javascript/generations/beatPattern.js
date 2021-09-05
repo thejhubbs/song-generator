@@ -1,8 +1,10 @@
+import BeatPattern from '../components/song/beatPattern.js'
+
 const generateNewBeatPatternFromBeatStyle = (beatPattern, beatStyle, weight) => {
 
     if (beatPattern.constructor.name !== "BeatPattern") {
         console.log("ERROR in generation.beatPattern.generateNewBeatPatternFromBeatStyle- variable beatPattern should be of type BeatPatternv",
-            beatPattern.constructor.name, beatPattern)
+            beatPatternconstructor.name, beatPattern)
     }
     if (typeof weight !== 'number' || weight <= 0) {
         console.log("ERROR in generation.beatPattern.generateNewBeatPatternFromBeatStyle- variable weight should be a number >= 1", typeof weight, weight)
@@ -52,8 +54,6 @@ const alterWeight = (original_excitement, incoming_excitement, weight) => {
 
     return newWeight
 }
-
-
 const generateBeatMap = (beatStyle) => {
     let randomMap = []
 
@@ -133,10 +133,12 @@ const generateBeatMap = (beatStyle) => {
 
     }
 
-
-
     return randomMap
+}
 
 
-
+export default {
+    generateNewBeatPatternFromBeatStyle,
+    alterWeight,
+    generateBeatMap
 }

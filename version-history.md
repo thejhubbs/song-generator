@@ -10,3 +10,7 @@ Drastially change directory; now folder structure; split code into components, g
 Ability to change instruments with genres, board to update with song
 Added true variation for beatStyles
 Increased variation in volume for instruments
+
+v.0.0.7
+Make js files import/export
+Generate buttons based on genre list

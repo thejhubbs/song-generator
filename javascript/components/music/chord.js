@@ -82,9 +82,9 @@
 */
 
 
+import {findChordByFuncFlavor} from '../../settings/music.js'
 
-
-class Chord {
+export default class Chord {
     constructor({ root = 1, bass = 1, notes = [1, 3, 5], func = 0, flavor = 0 }) {
         //Use Number.parseInt(`${}`) to copy value instead of reference
         this.root = Number.parseInt(`${root}`)

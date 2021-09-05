@@ -1,3 +1,5 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
 
 const basicArpeggioOutput = () => {
     let arpOptions = {
@@ -31,3 +33,5 @@ const basicArpeggio = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition( ( x % 6 ) + 1, sn, 3)] }
     }
 }
+
+export default basicArpeggio

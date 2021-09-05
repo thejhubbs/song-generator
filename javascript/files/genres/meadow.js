@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let meadowInstrumentWeight = new InstrumentWeight()
 
 let meadowGenre = new GenreParent({ 
+    name: 'meadow',
+    category: "videogame",
+    
     modes:  [1, 1, 4, 5],  
     bpms: [50, 60],
     moodChipRanges: {                
@@ -14,6 +20,7 @@ let meadowGenre = new GenreParent({
 })
 
 
+export default meadowGenre
     //             instrumentWeight: {
     //                 kick: 40,
     //                 hat: 40,

@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const rockVoxOutput = () => {
     let voxOptions = {
@@ -33,3 +36,5 @@ const rockVox = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromScalePosition((x % 7) + 1, sn, 4)] }
     }
 }
+
+export default rockVox

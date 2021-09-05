@@ -10,12 +10,15 @@
 
 */
 
+import arrangementPartGeneration from '../../generations/arrangementPart.js'
+import test from '../../settings/test.js'
+import random from '../../settings/random.js'
 
-class ArrangementPart {
-    constructor(name, beatPattern) {
+export default class ArrangementPart {
+    constructor(name, beatPattern, i) {
         this.name = name
         this.beatPattern = beatPattern.clone()
-        instrumentList.map((i) => i.name === this.name ? this.instrument = i : null)
+        this.instrument = i 
     }
 
 
@@ -36,7 +39,7 @@ class ArrangementPart {
             console.log("ERROR in song.arrangementPart.melody- variable beatIndex should be a number >= 0", typeof weightRatio, weightRatio)
         }
 
-        let noteChoicePosition = getNoteChoicePosition(beatIndex, repeatSectionPart, weightRatio) 
+        let noteChoicePosition = arrangementPartGeneration.getNoteChoicePosition(beatIndex, repeatSectionPart, weightRatio) 
 
         //Gets an array of potential notes to play, of variable length.
         let noteArray = this.instrument.noteArray(chord, scalenotes, noteChoicePosition)
@@ -64,8 +67,8 @@ class ArrangementPart {
             ret = noteArray[0]
         }
 
-        let isANote = isNote(ret)
-        let isANoteArray = isNoteArray(ret)
+        let isANote = test.isNote(ret)
+        let isANoteArray = test.isNoteArray(ret)
 
         if( !isANote && !isANoteArray ){ 
             console.log("ERROR in song.arrangementPart.melody- melody.note should be a note", ret, isANote, isANoteArray)
@@ -76,7 +79,7 @@ class ArrangementPart {
     }
 
     clone() {
-        return new ArrangementPart(this.name, this.beatPattern)
+        return new ArrangementPart(this.name, this.beatPattern, this.instrument)
     }
 
     //function playMelody() {
@@ -85,7 +88,7 @@ class ArrangementPart {
         if (!song.scaleNotes) { console.log("Scale notes not provided") }
         //Apply the instrument weight
         //e = (instrumentWeight[this.name] / 100 * e) + songPartIndex
-        e = bound(e, 1, 10)
+        e = random.bound(e, 1, 10)
 
         let beatPattern = this.beatPattern
 
@@ -97,7 +100,7 @@ class ArrangementPart {
         else if (  this.instrument.chordStyle === 'key' ) { useChord = mainChord }
         else {
             useChord = [true, false]
-            [normalizeAndGetRandomFromMap([beatPattern.resonance, beatPattern.tension])] ?
+            [random.normalizeAndGetRandomFromMap([beatPattern.resonance, beatPattern.tension])] ?
                 chord :
                 mainChord
         }
@@ -128,7 +131,7 @@ class ArrangementPart {
             }
 
             if (melody) {
-                this.instrument.instrument.playNote(melody, timing, weightRatio, length)
+                this.instrument.outputInstrument.playNote(melody, timing, weightRatio, length)
             }
         })
     }
@@ -182,7 +185,7 @@ class ArrangementPart {
             ret = noteStyle
         }
 
-        if( !isNoteTime(ret) ) {
+        if( !test.isNoteTime(ret) ) {
             console.log("ERROR in song.arrangementPart- melody.note should be a note", ret)
         }
 

@@ -1,4 +1,4 @@
-class InstrumentOption {
+export default class InstrumentOption {
     constructor(settings) {
         this.name = settings.name
         this.part = settings.part
@@ -18,7 +18,4 @@ class InstrumentOption {
 
         this.noteArray = settings.noteArray
     }
-
-
-
 }

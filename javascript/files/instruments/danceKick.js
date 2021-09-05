@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const danceKickOutput = () => {
     let kickFilter = new Tone.EQ3(1, -10, -100).connect(comp);
@@ -22,3 +25,5 @@ const danceKick = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition(1, sn, 1)] }
     }
 }
+
+export default danceKick

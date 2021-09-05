@@ -1,272 +1,38 @@
 <html>
 
+<head>
+    <link rel="stylesheet" href="./css/index.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
+
+    <!---  Tests   -->
+    <script type="module" src="./tests/test.js"></script>
+
+</head>
 <body>
-    <style>
-        * {
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-
-        .instrumentBoardBlock {
-            border: 2px solid black;
-            width: 25%;
-            display: inline-block;
-            padding: 1%;
-            margin: 1%;
-        }
-
-        input[type='checkbox'] {
-            width: 50px;
-            height: 50px;
-        }
-    </style>
-
-    <h1>Apollo's Lyre v.0.0.6</h1>
+    <h1>Apollo's Lyre v.0.0.7</h1>
     <h3>Creates a randomly influenced song</h3>
     <p>by Broken Record</p>
 
     <div>
         <div>
+            <br />
             <div id="genres" style="display:block;">
-                Genres:<br />
-                <button onclick="initSong(this)" data-genre="dancejam">Dance Jam</button>
-                <button onclick="initSong(this)" data-genre="danceballad">Dance Ballad</button>
-                <button onclick="initSong(this)" data-genre="rapbeat">Rap Beat</button>
-                <button onclick="initSong(this)" data-genre="sleepy">Sleepy Time</button>
-                <button onclick="initSong(this)" data-genre="rock">Rock</button>
-
-                <br />Video Game<br />
-                <button onclick="initSong(this)" data-genre="hometown">Small Town</button>
-                <button onclick="initSong(this)" data-genre="hometown">Big Town</button>
-                <button onclick="initSong(this)" data-genre="meadow">Meadow</button>
-                <button onclick="initSong(this)" data-genre="sea">Sea</button>
-                <button onclick="initSong(this)" data-genre="spooky">Spooky Cave</button>
-                <button onclick="initSong(this)" data-genre="danger">Danger</button>
             </div>
-
 
             <div id="controls" style="display:none;">
                 Controls:<br />
-                <button onclick="pause()">Pause</button>
-                <button onclick="play()">Play</button>
-                <button onclick="restart()">Restart</button>
+                <button class="pause-button">Pause</button>
+                <button class="play-button">Play</button>
                 <button onclick="window.location.reload(false)">Retry</button>
                 <audio id="audio" controls></audio>
-                <br />
-                <!--div class="column">
-                    <h3>To Export as OGG media file (Playable on computer)</h3>
-                    <p>Let it play all the way through the first time- then click "Restart" (this is recording phase)
-                    </p>
-                    <p>After that, click on the play button below and let it play through again (this is processing
-                        phase)</p>
-                    <p>The option to download will appear.</p>
-                    <audio id="audio" controls></audio>
-                </div>
-                <div class="column">
-                    <h3>To Save & and Edit Later</h3>
-                    You cannot play this on a computer, but can upload this back to this website to edit it again.
-                    <br /><button onclick="downloadFile()">Download an .aly File</button>
-                </div-->
             </div>
-
-
         </div>
 
-        <div id="board">
-
-
-        </div>
-
-        <style>
-            #test {
-                position: relative;
-            }
-
-            .song-part {
-                display: inline-block;
-                padding: 1rem;
-            }
-
-            .mood-chip-info {
-                display: none;
-            }
-
-            .mood-chip:hover {
-                color: blue;
-                cursor: pointer;
-            }
-
-            .mood-chip:hover .mood-chip-info {
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .beat-pattern-info {
-                display: none;
-            }
-
-            .beat-pattern:hover {
-                color: red;
-                cursor: pointer;
-            }
-
-            .beat-pattern:hover .beat-pattern-info {
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .arrangements {
-                display: flex;
-                flex-wrap: wrap;
-                max-width: 200px;
-                justify-content: center;
-            }
-
-            .arrangement {
-                padding: .25rem;
-            }
-        </style>
-
-        <div id="test">
-
-
-        </div>
+        <div id="board"></div>
+        <div id="test"></div>
+        <script type="module" src="./index.js"></script>
     </div>
 
-    <br />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.71/Tone.js"></script>
-
-    <!---  Music Library   -->
-    <script src="./javascript/components/music/chord.js"></script>
-    <script src="./javascript/settings/music.js"></script>
-
-    <!---  INSTRUMENTS   -->
-    <script src="./javascript/files/instruments/basicKick.js"></script>
-    <script src="./javascript/files/instruments/punchKick.js"></script>
-    <script src="./javascript/files/instruments/danceKick.js"></script>
-
-    <script src="./javascript/files/instruments/basicHat.js"></script>
-    <script src="./javascript/files/instruments/basicSnare.js"></script>
-    <script src="./javascript/files/instruments/basicToms.js"></script>
-
-    <script src="./javascript/files/instruments/basicBass.js"></script>
-
-    <script src="./javascript/files/instruments/basicHarmony.js"></script>
-    <script src="./javascript/files/instruments/synthHarmony.js"></script>
-    <script src="./javascript/files/instruments/basicArpeggio.js"></script>
-
-    <script src="./javascript/files/instruments/basicMelody.js"></script>
-    <script src="./javascript/files/instruments/softMelody.js"></script>
-    <script src="./javascript/files/instruments/basicVox.js"></script>
-
-    <script src="./javascript/files/instruments/basicFx.js"></script>
-    
-    <script src="./javascript/files/instruments/rockBass.js"></script>
-    <script src="./javascript/files/instruments/rockFx.js"></script>
-    <script src="./javascript/files/instruments/rockGtrL.js"></script>
-    <script src="./javascript/files/instruments/rockGtrR.js"></script>
-    <script src="./javascript/files/instruments/rockPiano.js"></script>
-    <script src="./javascript/files/instruments/rockVox.js"></script>
-
-    <!---  Output   -->
-    <script src="./javascript/components/output/board.js"></script>
-    <script src="./javascript/components/output/outputInstrument.js"></script>
-
-    <script src="./javascript/components/instruments/instrumentOption.js"></script>
-    <script src="./javascript/components/instruments/instrumentList.js"></script>
-
-    <!---  Settings   -->
-    <script src="./javascript/settings/dictionary.js"></script>
-    <script src="./javascript/settings/utility.js"></script>
-
-    <script src="./javascript/generations/song.js"></script>
-    <script src="./javascript/generations/progression.js"></script>
-    <script src="./javascript/generations/songPart.js"></script>
-    <script src="./javascript/generations/beatPattern.js"></script>
-    <script src="./javascript/generations/arrangementPart.js"></script>
-
-    <!---  Components   -->
-    <script src="./javascript/components/moodChip.js"></script>
-    <script src="./javascript/components/instruments/instrumentWeight.js"></script>
-    <script src="./javascript/components/genre.js"></script>
-
-    <script src="./javascript/components/song/progression.js"></script>
-    <script src="./javascript/components/song/beatPattern.js"></script>
-    <script src="./javascript/components/song/arrangementPart.js"></script>
-    <script src="./javascript/components/song/songPart.js"></script>
-    <script src="./javascript/components/song/song.js"></script>
-
-    <!---  Genres   -->
-    <script src="./javascript/files/genres/rap.js"></script>
-    <script src="./javascript/files/genres/danceballad.js"></script>
-    <script src="./javascript/files/genres/dancejam.js"></script>
-    <script src="./javascript/files/genres/bigtown.js"></script>
-    <script src="./javascript/files/genres/danger.js"></script>
-    <script src="./javascript/files/genres/hometown.js"></script>
-    <script src="./javascript/files/genres/meadow.js"></script>
-    <script src="./javascript/files/genres/sea.js"></script>
-    <script src="./javascript/files/genres/sleepy.js"></script>
-    <script src="./javascript/files/genres/spooky.js"></script>
-    <script src="./javascript/files/genres/rock.js"></script>
-    <script src="./javascript/files/genres/genreList.js"></script>
-
-    <!---  Tests   -->
-    <!-- <script src="./javascript/tests/chord.js"></script>
-    <script src="./javascript/tests/song.js"></script>
-    <script src="./javascript/tests/songPart.js"></script>
-    <script src="./javascript/tests/arrangementPart.js"></script>
-    <script src="./javascript/tests/progression.js"></script>
-    <script src="./javascript/tests/beatPattern.js"></script>
-    <script src="./javascript/tests/moodChip.js"></script> -->
-    
-    <script src="./javascript/index.js"></script>
-
 </body>
-
 </html>
-
-<!--
-<select id="keyControl" onchange="initSong()">
-    <option value="1">C</option>
-    <option value="2">D</option>
-    <option value="3">E</option>
-    <option value="4">F</option>
-    <option value="5">G</option>
-    <option value="6">A</option>
-    <option value="7">B</option>
-</select>
-
-<select id="modeControl" onchange="initSong()">
-    <option value="1">Major- Happy</option>
-    <option value="2">Dorian- Dreamy</option>
-    <option value="3">Phrygian- Drudgy</option>
-    <option value="4">Lydian- Fun</option>
-    <option value="5">Mixolydian- Upbeat</option>
-    <option value="6">Aeolian- Emotional</option>
-    <option value="7">Locrian- Dark</option>
-</select>
-
-
-
-<br />
-Song Controls: <br />
-Resonance: <div class="slidecontainer">
-    <input type="range" min="1" max="10" value="8" class="slider" id="resonanceControl" onchange="initSong()">
-</div>
-Repetition: <div class="slidecontainer">
-    <input type="range" min="1" max="10" value="7" class="slider" id="repetitionControl" onchange="initSong()">
-</div>
-Tension: <div class="slidecontainer">
-    <input type="range" min="1" max="10" value="6" class="slider" id="tensionControl" onchange="initSong()">
-</div>
-Excitement: <div class="slidecontainer">
-    <input type="range" min="1" max="10" value="6" class="slider" id="excitementControl" onchange="initSong()">
-</div>
--->

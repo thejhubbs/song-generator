@@ -1,6 +1,11 @@
-const generateArrangementsFromBeatPatternAndInstrumentList = (beatPattern, instrumentList) => {
+import ArrangementPart from '../components/song/arrangementPart.js'
+import beatPatternGeneration from './beatPattern.js'
+import {findInstrumentByName} from '../files/instruments/instrumentList.js'
+
+const generateArrangementsFromBeatPatternAndInstrumentList = (genre, beatPattern) => {
     let newArrangements = []
 
+    console.log(genre)
     let instruments = genre.instrumentList.instrumentSongParts
 
     instruments.map((song_part) => {
@@ -12,9 +17,9 @@ const generateArrangementsFromBeatPatternAndInstrumentList = (beatPattern, instr
 
             let weight = song_part.weight * song_part_kind.weight / 100
 
-            let bp = generateNewBeatPatternFromBeatStyle(beatPattern, i.beatStyle, weight*10)
+            let bp = beatPatternGeneration.generateNewBeatPatternFromBeatStyle(beatPattern, i.beatStyle, weight*10)
 
-            let n = new ArrangementPart(song_part_kind.name, bp)
+            let n = new ArrangementPart(song_part_kind.name, bp, i)
             newArrangements.push(n)
         })
     })
@@ -25,4 +30,9 @@ const getNoteChoicePosition = (beatIndex, repeatSectionPart, weightRatio) => {
     let res = Math.round(beatIndex * repeatSectionPart * weightRatio)
     if( res > 24 || res < 0) { console.log("WARNING in generation.getNoteChoicePosition, result was out of bounds, 0<=x<=24", res)}
     return res
+}
+
+export default {
+    generateArrangementsFromBeatPatternAndInstrumentList,
+    getNoteChoicePosition
 }

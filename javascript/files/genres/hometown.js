@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let homeTownInstrumentWeight = new InstrumentWeight()
 
 let homeTownGenre = new GenreParent({ 
+    name: 'hometown',
+    category: "videogame",
+    
     modes:  [1, 1, 1, 4],  
     bpms: [60, 80],
     moodChipRanges: {                
@@ -13,6 +19,7 @@ let homeTownGenre = new GenreParent({
     instrumentList: homeTownInstrumentWeight
 })
 
+export default homeTownGenre
 
     //             instrumentWeight: {
     //                 kick: 40,

@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let danceBalladInstrumentWeight = new InstrumentWeight()
 
 let danceBalladGenre = new GenreParent({
+    name: 'danceballad',
+    category: "genre",
+    
     modes: [1, 1, 1, 6],
     bpms: [50, 60],
     moodChipRanges: {
@@ -13,6 +19,7 @@ let danceBalladGenre = new GenreParent({
     instrumentList: danceBalladInstrumentWeight
 })
 
+export default danceBalladGenre
 
     //             instrumentWeight: {
     //                 kick: 20,

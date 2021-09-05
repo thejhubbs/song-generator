@@ -1,4 +1,7 @@
-class BeatPattern {
+import beatPatternGeneration from '../../generations/beatPattern.js'
+import random from '../../settings/random.js'
+
+export default class BeatPattern {
     constructor(moodChip, beatStyle='beatmelody', beat = null) {
         this.moodChip = moodChip.clone()
         this.beatStyle = beatStyle
@@ -14,7 +17,7 @@ class BeatPattern {
 
     randomizeBeat() {
         this.mainBeat = []
-        let randomMap = generateBeatMap(this.beatStyle)
+        let randomMap = beatPatternGeneration.generateBeatMap(this.beatStyle)
 
         let weightKey = {}
         randomMap.map((r) => weightKey[String(r)] ? weightKey[String(r)] += 1 : weightKey[String(r)] = 1)
@@ -29,7 +32,7 @@ class BeatPattern {
         let amount = ( (this.moodChip.excitement ** 2) / 5)
 
         for (let i = 0; i < amount; i++) {
-            let val = normalizeAndGetRandomFromMap(simpleWeightArray)
+            let val = random.normalizeAndGetRandomFromMap(simpleWeightArray)
             let weight = Math.ceil( simpleWeightArray[val] * (amount - i) * ((11 - this.excitement)**1.5) / 10 )
             let position = weightKeys[val]
             let copy = false
@@ -62,7 +65,7 @@ class BeatPattern {
         let clone = new BeatPattern(this.moodChip, this.beatStyle, this.mainBeat)
 
         let newBeat = clone.mainBeat.map((beatItem) => {
-            let newWeight = alterWeight(this.excitement, excitement, beatItem.weight)
+            let newWeight = beatPatternGeneration.alterWeight(this.excitement, excitement, beatItem.weight)
             if(newWeight === 0) { return null }
             else { return { ...beatItem, weight: newWeight } }
         })

@@ -1,3 +1,5 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
 
 const rockFxOutput = () => {
     let fxOptions = {
@@ -33,3 +35,5 @@ const rockFx = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromScalePosition((x % 3) + 1, sn, 5)] }
     }
 }
+
+export default rockFx

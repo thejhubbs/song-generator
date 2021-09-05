@@ -1,58 +1,4 @@
-function randomInt(between) {
-    return Math.floor(Math.random() * between)
-}
-
-function normalizeAndGetRandomFromMap(map) {
-    let total = 0
-
-    map.map((v) => total += v)
-
-    let scale = 100 / total
-
-    map = map.map((v) => v * scale)
-
-    return getRandomFromMap(map)
-
-}
-
-function getRandomFromMap(map) {
-    let val = randomInt(100)
-    let ret = null
-    let total = 0
-
-    map.map((r, i) => {
-        if (val >= total && val < (total + r)) { ret = i }
-        total += r
-    })
-
-    if (ret === null) { ret = map.length - 1 }
-
-    return ret
-}
-
-//random true or false
-function randomTrueFalse(weight = 50) {
-    let weightMap = [100 - weight, weight]
-    let ret = null
-    getRandomFromMap(weightMap) === 1 ? ret = true : ret = false
-    return ret
-}
-
-//Put in two values. the first is the true weight, the second is the false weight
-function weightedTrueFalse(trueWeight, falseWeight) {
-    return [true, false][normalizeAndGetRandomFromMap([trueWeight, falseWeight])]
-}
-
-function bound(value, low, high) {
-    let ret = value || 0
-    if (ret < low) { ret = low }
-    if (ret > high) { ret = high }
-    return ret
-}
-
-
-
-function compareArray(arr1, arr2) {
+export function compareArray(arr1, arr2) {
     let check = true
     if (arr1.length !== arr2.length) { check = false }
     arr1.map((a1, i) => {
@@ -62,7 +8,7 @@ function compareArray(arr1, arr2) {
     return check
 }
 
-function compareArrayOfObjects(arr1, arr2) {
+export function compareArrayOfObjects(arr1, arr2) {
     let check = true
     if (arr1.length !== arr2.length) { check = false }
     else {
@@ -79,7 +25,7 @@ function compareArrayOfObjects(arr1, arr2) {
     return check
 }
 
-function isNote(input) {
+export function isNote(input) {
     if(typeof input !== 'string') { 
         //console.log("ERROR- isNote- Note is not a string.", input, typeof input); 
         return false 
@@ -99,7 +45,7 @@ function isNote(input) {
     return true
 }
 
-function isNoteArray(input) {
+export function isNoteArray(input) {
     if(!Array.isArray(input)) { 
         //console.log("ERROR- isNote- Input is not an array of notes.", input, typeof input); 
         return false 
@@ -122,11 +68,19 @@ function isNoteArray(input) {
     return true
 }
 
-function isNoteTime(input) {
+export function isNoteTime(input) {
     if(typeof input !== 'string') { console.log("ERROR- isNoteTime- Note is not a string.", input, typeof input); return false } 
 
     let noteCheck = ["2n", "4n", "8n", "16n", "32n"].includes(input)
     if ( !noteCheck ) { console.log("ERROR- isNoteTime- time is not accurate,", input); return false; }
 
     return true
+}
+
+export default {
+    compareArray,
+    compareArrayOfObjects,
+    isNote,
+    isNoteArray,
+    isNoteTime
 }

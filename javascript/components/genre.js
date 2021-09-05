@@ -23,8 +23,13 @@
 
 */
 
-class GenreParent {
-    constructor({ modes, bpms, moodChipRanges, instrumentList }) {
+import MoodChip from './moodChip.js'
+
+export default class GenreParent {
+    constructor({ name, category, modes, bpms, moodChipRanges, instrumentList }) {
+        this.name = name
+        this.category = category
+
         this.modes = modes
         this.bpms = bpms
         this.moodChipRanges = moodChipRanges

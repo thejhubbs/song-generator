@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 const basicHarmonyOutput = () => {
     let harmonyOptions = {
         oscillator: {
@@ -32,3 +35,5 @@ const basicHarmony = () => {
         noteArray: (chord, sn, x) => { return [chord.printChord(4, sn)] }
     }
 }
+
+export default basicHarmony

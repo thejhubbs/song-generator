@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let bigTownInstrumentWeight = new InstrumentWeight()
 
 let bigTownGenre = new GenreParent({ 
+    name: 'bigtown',
+    category: "videogame",
+    
     modes:  [5, 4, 5],  
     bpms: [70, 80],
     moodChipRanges: {
@@ -12,6 +18,8 @@ let bigTownGenre = new GenreParent({
     },     
     instrumentList: bigTownInstrumentWeight
 })
+
+export default bigTownGenre
 
 
     //             //drums, bass, harmony, melody, fx

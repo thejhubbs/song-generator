@@ -1,4 +1,7 @@
 
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 const basicKickOutput = () => {
     let kickFilter = new Tone.EQ3(1, -100, -100).connect(comp);
     let drumSettings = { envelope: { attack: .0001, release: .1 }}
@@ -22,3 +25,5 @@ const basicKick = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition(1, sn, 1)] }
     }
 }
+
+export default basicKick

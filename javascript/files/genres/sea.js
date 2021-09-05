@@ -1,6 +1,13 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
+
 let seaInstrumentWeight = new InstrumentWeight()
 
 let seaGenre = new GenreParent({ 
+    name: 'sea',
+    category: "videogame",
+    
     modes:  [1, 1, 5],  
     bpms: [60, 70],
     moodChipRanges: {                
@@ -13,3 +20,5 @@ let seaGenre = new GenreParent({
     instrumentList: seaInstrumentWeight
 })
 
+
+export default seaGenre

@@ -1,3 +1,5 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
 
 const basicVoxOutput = () => {
     let voxOptions = {
@@ -33,3 +35,5 @@ const basicVox = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromScalePosition((x % 7) + 1, sn, 4)] }
     }
 }
+
+export default basicVox

@@ -1,0 +1,75 @@
+* {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.genre-button {
+    margin: 4px;
+    padding: 4px 10px;
+}
+
+.instrumentBoardBlock {
+    border: 2px solid black;
+    width: 25%;
+    display: inline-block;
+    padding: 1%;
+    margin: 1%;
+}
+
+input[type='checkbox'] {
+    width: 50px;
+    height: 50px;
+}
+
+#test {
+    position: relative;
+}
+
+.song-part {
+    display: inline-block;
+    padding: 1rem;
+}
+
+.mood-chip-info {
+    display: none;
+}
+
+.mood-chip:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.mood-chip:hover .mood-chip-info {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.beat-pattern-info {
+    display: none;
+}
+
+.beat-pattern:hover {
+    color: red;
+    cursor: pointer;
+}
+
+.beat-pattern:hover .beat-pattern-info {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.arrangements {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 200px;
+    justify-content: center;
+}
+
+.arrangement {
+    padding: .25rem;
+}

@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let spookyInstrumentWeight = new InstrumentWeight()
 
 let spookyGenre = new GenreParent({
+    name: 'spooky',
+    category: "videogame",
+    
     modes: [3, 3, 6, 7],
     bpms: [60, 80],
     moodChipRanges: {
@@ -14,6 +20,7 @@ let spookyGenre = new GenreParent({
 })
 
 
+export default spookyGenre
     //             instrumentWeight: {
     //                 kick: 80,
     //                 hat: 100,

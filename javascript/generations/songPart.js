@@ -62,3 +62,9 @@ const processSongPartProgressions = (songPart) => {
             break;
     }
 }
+
+
+export default {
+    songPartProgressionRepeat,
+    processSongPartProgressions
+}

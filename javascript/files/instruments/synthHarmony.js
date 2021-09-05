@@ -1,4 +1,8 @@
-const basicSynthOutput = () => {
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
+
+const synthHarmonyOutput = () => {
     let harmonyOptions = {
         oscillator: {
             type: 'fatsawtooth',
@@ -21,7 +25,7 @@ const synthHarmony = () => {
         name: "synthHarmony",
         part: "harmony",
         kind: "harmony",
-        instrument: basicHarmonyOutput(),
+        instrument: synthHarmonyOutput(),
         volume: 8,
         filter: [0, 0, 0],
         fx1: ['', []],
@@ -32,3 +36,5 @@ const synthHarmony = () => {
         noteArray: (chord, sn, x) => { return [chord.printChord(4, sn)] }
     }
 }
+
+export default synthHarmony

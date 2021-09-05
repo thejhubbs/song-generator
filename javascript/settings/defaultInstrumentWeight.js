@@ -1,64 +1,4 @@
-
-const CHROMATIC_NOTES = ['C', "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-
-const SONG_PARTS = [
-    {
-        name: "Chorus"
-    },
-    {
-        name: "Verse"
-    },
-    {
-        name: "Bridge"
-    },
-    {
-        name: "Pre-Chorus"
-    },
-]
-
-const INSTRUMENT_SONG_PARTS = [
-    {
-        name: 'drums',
-        kinds: [
-            'kick',
-            'hat',
-            'snare',
-            'toms',
-        ]
-    },
-
-    {
-        name: 'bass',
-        kinds: [
-            'bass'
-        ]
-    },
-
-    {
-        name: 'harmony',
-        kinds: [
-            'harmony',
-            'arpeggio'
-        ]
-    },
-
-    {
-        name: 'melody',
-        kinds: [
-            'melody',
-            'vox'
-        ]
-    },
-
-    {
-        name: 'fx',
-        kinds: [
-            'fx'
-        ]
-    }
-]
-
-const DEFAULT_INSTRUMENT_WEIGHT_OBJECT = () => {
+const defaultInstrumentWeightValues = () => {
     return [
         {
             name: 'drums',
@@ -156,3 +96,5 @@ const DEFAULT_INSTRUMENT_WEIGHT_OBJECT = () => {
         }
     ]
 }
+
+export default defaultInstrumentWeightValues

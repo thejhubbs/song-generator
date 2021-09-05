@@ -81,7 +81,12 @@
 
 */
 
-class Progression {
+import progressionGeneration from '../../generations/progression.js'
+import {findChordByFuncFlavor} from '../../settings/music.js'
+import random from '../../settings/random.js'
+
+
+export default class Progression {
     constructor(moodChip, chords=null) {
         this.chords = chords
         this.moodChip = moodChip.clone()
@@ -115,16 +120,16 @@ class Progression {
         let choice = null
 
         let options = [
-            findChordByFuncFlavor(generateResonance(this), generateResonance(this)),
-            findChordByFuncFlavor(generateTensionFunction(this), generateTensionFlavor(this)),
-            findChordByFuncFlavor(generateRepeat(this, 'func', position), generateRepeat(this, 'flavor', position))
+            findChordByFuncFlavor(progressionGeneration.generateResonance(this), progressionGeneration.generateResonance(this)),
+            findChordByFuncFlavor(progressionGeneration.generateTensionFunction(this), progressionGeneration.generateTensionFlavor(this)),
+            findChordByFuncFlavor(progressionGeneration.generateRepeat(this, 'func', position), progressionGeneration.generateRepeat(this, 'flavor', position))
         ]
 
         //Then, get a doubly-weighted array of 3 numbers for the weight of the choice. Weigh against position & moodChip.
-        let positionWeights = generatePositionWeights(position, this)
+        let positionWeights = progressionGeneration.generatePositionWeights(position, this)
 
         //Make the actual choice & clone it
-        choice = options[getRandomFromMap(positionWeights)]
+        choice = options[random.getRandomFromMap(positionWeights)]
         choice = choice.chord.clone()
 
         return choice
@@ -163,12 +168,12 @@ class Progression {
         this.moodChip = moodChip.clone()
 
         //first chord
-        regenerateFirstChord(this)
-        regenerateSecondChord(this)
-        regenerateThirdChord(this)
-        regenerateFourthChord(this)
+        progressionGeneration.regenerateFirstChord(this)
+        progressionGeneration.regenerateSecondChord(this)
+        progressionGeneration.regenerateThirdChord(this)
+        progressionGeneration.regenerateFourthChord(this)
 
-        regenerateAllChords(this)
+        progressionGeneration.regenerateAllChords(this)
     }
 
 }

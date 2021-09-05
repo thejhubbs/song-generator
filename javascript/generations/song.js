@@ -34,7 +34,7 @@ const preChorusGeneration = (preChorus) => {
 
 const preChorusPostGeneration = (preChorus) => {
     fadeOutInstruments(preChorus)
-    
+
     return preChorus
 }
 
@@ -49,7 +49,7 @@ const thirdChorusGeneration = (c) => {
 const introVerseGeneration = (v) => {
     let v_intro = v.cloneAlter(-5)
     fadeOutInstruments(v_intro)
-    
+
     return v_intro
 }
 
@@ -67,17 +67,16 @@ const fadeOutInstruments = (sp) => {
 
     let chance = sp.moodChip.excitement / 8
 
-    removeNames = []
-    
-    sp.arrangements.forEach( (a) => {
-        if( Math.random() > chance ) {
-            console.log(a.name)
+    let removeNames = []
+
+    sp.arrangements.forEach((a) => {
+        if (Math.random() > chance) {
             removeNames.push(a.name)
         }
     })
 
-    
-    let new_arrange = sp.arrangements.filter( (ap) => {
+
+    let new_arrange = sp.arrangements.filter((ap) => {
         return !removeNames.includes(ap.instrument.name)
     })
     sp.arrangements = new_arrange
@@ -105,4 +104,22 @@ const songStructureVariation = (song) => {
 const alterChorusForBridge = (chorusSecond) => {
     let lastChord = chorusSecond.getChord(1, 4)
     lastChord.alterFuncFlavor(1, 1)
+}
+
+export default {
+    chorusGeneration,
+    verseGeneration,
+    versePostGeneration,
+    bridgeGeneration,
+    bridegPostGeneration,
+    preChorusGeneration,
+    preChorusPostGeneration,
+    secondChorusGeneration,
+    thirdChorusGeneration,
+    introVerseGeneration,
+    secondVerseGeneration,
+    thirdVerseGeneration,
+    fadeOutInstruments,
+    songStructureVariation,
+    alterChorusForBridge
 }

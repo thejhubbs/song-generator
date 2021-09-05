@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const softMelodyOutput = () => {
     let melodyOptions = {
@@ -35,3 +38,5 @@ const softMelody = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition((x % 6) + 1, sn, 4), chord.printNoteFromScalePosition((x % 7) + 1, sn, 4), chord.printNoteFromChordPosition((x % 3) + 1, sn, 4)] }
     }
 }
+
+export default softMelody

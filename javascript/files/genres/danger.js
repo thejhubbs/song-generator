@@ -1,6 +1,12 @@
+import InstrumentWeight from '../../components/instruments/instrumentWeight.js'
+import GenreParent from '../../components/genre.js'
+
 let dangerInstrumentWeight = new InstrumentWeight()
 
 let dangerGenre = new GenreParent({ 
+    name: 'danger',
+    category: "videogame",
+    
     modes:  [3, 3, 7],  
     bpms: [120, 140],
     moodChipRanges: {                
@@ -14,6 +20,7 @@ let dangerGenre = new GenreParent({
 })
 
 
+export default dangerGenre
     //             instrumentWeight: {
     //                 kick: 80,
     //                 hat: 100,

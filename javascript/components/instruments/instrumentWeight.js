@@ -1,8 +1,10 @@
-class InstrumentWeight {
+import defaultInstrumentWeightValues from '../../settings/defaultInstrumentWeight.js'
+
+export default class InstrumentWeight {
     constructor() {
         this.instrumentSongParts = []
 
-        DEFAULT_INSTRUMENT_WEIGHT_OBJECT().map((song_part) => {
+        defaultInstrumentWeightValues().map((song_part) => {
             this.instrumentSongParts.push(new InstrumentWeightSongPart(song_part))
         })
 

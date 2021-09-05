@@ -17,13 +17,21 @@
 
 */
 
-class SongPart {
-    constructor(progression, kind, progressions = null, beatPattern = null, arrangements = null) {
+import BeatPattern from './beatPattern.js'
+
+import songPartGeneration from '../../generations/songPart.js'
+import arrangementPartGeneration from '../../generations/arrangementPart.js'
+
+import random from '../../settings/random.js'
+
+export default class SongPart {
+    constructor(genre, progression, kind, progressions = null, beatPattern = null, arrangements = null) {
         this.coreProgression = progression.clone()
         this.moodChip = progression.moodChip.clone()
 
         //Possible Kinds- chorus, verse, brige, prechorus
         this.kind = kind
+        this.genre = genre
 
         //Setting progressions, beatPattern, and arrangements to null for clarity, they are set in the next line.
         this.progressions = null
@@ -36,22 +44,22 @@ class SongPart {
             this.beatPattern = beatPattern.clone()
         } else {
             //Figure out whether or not & how many times to repeat the progression.
-            this.progressions = songPartProgressionRepeat(this)
+            this.progressions = songPartGeneration.songPartProgressionRepeat(this)
             this.beatPattern = new BeatPattern(this.moodChip)
 
             //This is a function that looks at the chords & progressions and does a little bit of processing.
-            processSongPartProgressions(this)
+            songPartGeneration.processSongPartProgressions(this)
         }
 
         if(arrangements) {
             this.arrangements = arrangements.map((p) => p.clone())
         } else {
-            this.arrangements = generateArrangementsFromBeatPatternAndInstrumentList(this.beatPattern, instrumentList)
+            this.arrangements = arrangementPartGeneration.generateArrangementsFromBeatPatternAndInstrumentList(this.genre, this.beatPattern)
         }
     }
 
     clone() {
-        return new SongPart(this.coreProgression, this.kind,
+        return new SongPart(null, this.coreProgression, this.kind,
             this.progressions, this.beatPattern, this.arrangements)
     }
 
@@ -63,7 +71,7 @@ class SongPart {
         let b = this.beatPattern.clone()
         b.moodChip = p.moodChip.clone()
 
-        return new SongPart(p, this.kind,
+        return new SongPart(this.genre, p, this.kind,
             repeat ? [...this.progressions, ...this.progressions] : this.progressions,
             b)
     }
@@ -96,7 +104,7 @@ class SongPart {
 
         chords.map((chord, i) => {
             let e = this.moodChip.excitement + (Math.round(Math.sqrt(this.moodChip.excitement)) * (i / 2 - 4))
-            e = bound(e, 1, 10)
+            e = random.bound(e, 1, 10)
 
             this.arrangements.map((p) => {
                 

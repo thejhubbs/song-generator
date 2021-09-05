@@ -1,3 +1,6 @@
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 
 const basicSnareOutput = () => {
     let snareFilter = new Tone.EQ3(1, 0, 0).connect(comp);
@@ -22,3 +25,5 @@ const basicSnare = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition(1, sn, 3)] }
     }
 }
+
+export default basicSnare

@@ -87,10 +87,18 @@
 
 */
 
-class Song {
-    constructor(key, mode, moodChip) {
+import SongPart from './songPart.js'
+import Progression from './progression.js'
+
+import songGeneration from '../../generations/song.js'
+
+import {chromaticNotes, scaleNotes, scaleChords} from '../../settings/music.js'
+
+export default class Song {
+    constructor(key, genre, moodChip) {
         this.key = key
-        this.mode = mode
+        this.mode = genre.mode
+        this.genre = genre
 
         this.moodChip = moodChip
         this.mainProgression = new Progression(moodChip)
@@ -110,8 +118,8 @@ class Song {
         if (majorKeyPos < 0) { majorKeyPos += 7 }
 
         //Rearrange the chromatic notes based on the found position
-        let majorKeyChromaticPos = CHROMATIC_NOTES.indexOf(scaleNotes[majorKeyPos])
-        let cN = [...CHROMATIC_NOTES]
+        let majorKeyChromaticPos = chromaticNotes.indexOf(scaleNotes[majorKeyPos])
+        let cN = [...chromaticNotes]
         let cTailNotes = []
         cTailNotes = cN.splice(majorKeyChromaticPos)
 
@@ -134,39 +142,39 @@ class Song {
     }
 
     //All the generation for creating the song parts
-    generateSong() {
+    generateSong = () => {
         //Create the different progressions, and run the "generation" functions to specialize them accordingly
         let chorus = this.mainProgression.clone()
         let verse = this.mainProgression.clone()
 
-        chorusGeneration(chorus, this.moodChip.clone())
-        verseGeneration(verse, this.moodChip.clone())
+        songGeneration.chorusGeneration(chorus, this.moodChip.clone())
+        songGeneration.verseGeneration(verse, this.moodChip.clone())
 
         let bridge = verse.clone()
-        bridgeGeneration(bridge, this.moodChip.clone())
+        songGeneration.bridgeGeneration(bridge, this.moodChip.clone())
 
         let preChorus = chorus.clone()
-        preChorusGeneration(preChorus)
-        let preChorusPart = new SongPart(preChorus, 'prechorus')
-        preChorusPostGeneration(preChorusPart)
+        songGeneration.preChorusGeneration(preChorus)
+        let preChorusPart = new SongPart(this.genre, preChorus, 'prechorus')
+        songGeneration.preChorusPostGeneration(preChorusPart)
 
         //Create the actual song parts from the created progressions
-        let chorusFirst = new SongPart(chorus, 'chorus')
-        let chorusSecond = secondChorusGeneration(chorusFirst)
-        let chorusThird = thirdChorusGeneration(chorusFirst)
+        let chorusFirst = new SongPart(this.genre, chorus, 'chorus')
+        let chorusSecond = songGeneration.secondChorusGeneration(chorusFirst)
+        let chorusThird = songGeneration.thirdChorusGeneration(chorusFirst)
 
-        let verseFirst = new SongPart(verse, 'verse')
-        let verseIntro = introVerseGeneration(verseFirst)
-        let verseSecond = secondVerseGeneration(verseFirst)
-        let verseThird = thirdVerseGeneration(verseFirst)
+        let verseFirst = new SongPart(this.genre, verse, 'verse')
+        let verseIntro = songGeneration.introVerseGeneration(verseFirst)
+        let verseSecond = songGeneration.secondVerseGeneration(verseFirst)
+        let verseThird = songGeneration.thirdVerseGeneration(verseFirst)
 
-        versePostGeneration(verseFirst)
+        songGeneration.versePostGeneration(verseFirst)
 
-        let bridgePart = new SongPart(bridge, 'bridge')
-        bridegPostGeneration(bridgePart)
+        let bridgePart = new SongPart(this.genre, bridge, 'bridge')
+        songGeneration.bridegPostGeneration(bridgePart)
 
         //These are the possible variations in the song structure
-        let structure = songStructureVariation(this)
+        let structure = songGeneration.songStructureVariation(this)
 
         //BEGIN constructing the song
         if (structure.has_chorus_intro) { this.songParts.push(chorusFirst) }
@@ -184,7 +192,7 @@ class Song {
         if (structure.has_double_second_chorus) { this.songParts.push(chorusFirst) }
 
         if (structure.has_bridge) {
-            alterChorusForBridge(chorusSecond)
+            songGeneration.alterChorusForBridge(chorusSecond)
             this.songParts.push(chorusSecond)
             this.songParts.push(bridgePart)
         } else {

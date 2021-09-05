@@ -1,4 +1,7 @@
 
+import {comp} from '../../components/output/master.js'
+import OutputInstrument from '../../components/output/outputInstrument.js'
+
 const basicFxOutput = () => {
     let fxOptions = {
         oscillator: {
@@ -33,3 +36,4 @@ const basicFx = () => {
         noteArray: (chord, sn, x) => { return [chord.printNoteFromScalePosition((x % 3) + 1, sn, 5)] }
     }
 }
+export default basicFx

@@ -37,7 +37,9 @@
 
 */
 
-class MoodChip {
+import random from '../settings/random.js'
+
+export default class MoodChip {
     constructor(settings = {}) {
         this.resonance = settings.resonance || 5
         this.tension = settings.tension || 5
@@ -58,7 +60,7 @@ class MoodChip {
 
     //Bounds a field to 1<=10 and sets it.
     set(field, value) {
-        value = bound(value, 1, 10)
+        value = random.bound(value, 1, 10)
         this[field] = value
     }
 
@@ -76,7 +78,7 @@ class MoodChip {
     
     // NEEDS BETTER DEFINING- BAD ALGORITHM
     scale(field, value, intensity = 5, scale = 10) {
-        value = bound(value, -1 * scale, scale)
+        value = random.bound(value, -1 * scale, scale)
         //Normalizes value between 0-2. Anything less than half will decrease, more will increase
         value = (value / scale) + 1
         intensity = (intensity / 10) + 1
@@ -104,7 +106,7 @@ class MoodChip {
             total1 += this[field]
             total2 += average
         })
-        return weightedTrueFalse( total1, total2 )
+        return random.weightedTrueFalse( total1, total2 )
     }
 
     //Takes in 2 arrays of fields, and returns a true or false based on the weight of the settings.
@@ -119,7 +121,7 @@ class MoodChip {
         fieldArray1.map((field) => total1 += this[field])
         fieldArray2.map((field) => total2 += this[field])
 
-        return weightedTrueFalse(total1, total2)
+        return random.weightedTrueFalse(total1, total2)
     }
 
     print() {

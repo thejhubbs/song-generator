@@ -1,4 +1,6 @@
-class Board {
+import {findInstrumentByName} from '../../files/instruments/instrumentList.js'
+
+export default class Board {
     constructor() {
         this.instruments = {}
 

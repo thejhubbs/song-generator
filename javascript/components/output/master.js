@@ -1,0 +1,1 @@
+export const comp = new Tone.Compressor(-30, 1).toDestination()
