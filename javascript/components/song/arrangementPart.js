@@ -23,7 +23,7 @@ export default class ArrangementPart {
 
 
 
-    melody(chord, beatIndex, weightRatio, scalenotes, repeatSectionPart) {
+    melody(chord, beatIndex, weightRatio, scalenotes) {
         if (!scalenotes) { console.log("song.arrangementPart.melody- Scale notes not provided") }
 
         if( chord.constructor.name !== "Chord") { 
@@ -32,14 +32,11 @@ export default class ArrangementPart {
         if( typeof weightRatio !== 'number' || weightRatio <= 0) { 
             console.log("ERROR in song.arrangementPart.melody- variable weightRatio should be a number >= 1", typeof weightRatio, weightRatio)
         }
-        if( typeof repeatSectionPart !== 'number' || repeatSectionPart < 1 || repeatSectionPart > 8) { 
-            console.log("ERROR in song.arrangementPart.melody- variable repeatSectionPart should be 1<=x<=8", typeof repeatSectionPart, repeatSectionPart)
-        }
         if( typeof beatIndex !== 'number' || beatIndex < 0) { 
             console.log("ERROR in song.arrangementPart.melody- variable beatIndex should be a number >= 0", typeof weightRatio, weightRatio)
         }
 
-        let noteChoicePosition = arrangementPartGeneration.getNoteChoicePosition(beatIndex, repeatSectionPart, weightRatio) 
+        let noteChoicePosition = arrangementPartGeneration.getNoteChoicePosition(beatIndex, weightRatio) 
 
         //Gets an array of potential notes to play, of variable length.
         let noteArray = this.instrument.noteArray(chord, scalenotes, noteChoicePosition)
@@ -60,8 +57,8 @@ export default class ArrangementPart {
             })
             //If you get through them all and didn't find one, choose the last one.
             if(ret === null) { ret = noteArray[noteArray.length - 1] }
-
         } 
+
         //Otherwise return the only one
         else {
             ret = noteArray[0]
@@ -71,8 +68,8 @@ export default class ArrangementPart {
         let isANoteArray = test.isNoteArray(ret)
 
         if( !isANote && !isANoteArray ){ 
-            console.log("ERROR in song.arrangementPart.melody- melody.note should be a note", ret, isANote, isANoteArray)
-            console.log({chord, beatIndex, weightRatio, scalenotes, repeatSectionPart})
+            console.log("ERROR in song.arrangementPart.melody- melody.note should be a note", ret, isANote, isANoteArray, this.name)
+            console.log({chord, beatIndex, weightRatio, scalenotes})
         }
 
         return ret
@@ -83,12 +80,9 @@ export default class ArrangementPart {
     }
 
     //function playMelody() {
-    playPart(e, songPartIndex, chord, i, now, time, spacing, mainChord, song) {
+    playPart(songPartIndex, chord, i, now, time, spacing, mainChord, song) {
 
         if (!song.scaleNotes) { console.log("Scale notes not provided") }
-        //Apply the instrument weight
-        //e = (instrumentWeight[this.name] / 100 * e) + songPartIndex
-        e = random.bound(e, 1, 10)
 
         let beatPattern = this.beatPattern
 
@@ -114,16 +108,13 @@ export default class ArrangementPart {
             let scalenotes = song.scaleNotes
             if (!scalenotes) { console.log("Scale notes not provided") }
 
-            let repeat = [1, 2, 4, 8][4 - Math.floor(Math.sqrt(beatPattern.moodChip.repetition * 2))]
-            let repeatSectionPart = Math.round(((i + Math.round(Math.sqrt(e))) % repeat)) + 1
-
             let timing = (now + time + (p / spacing))
 
             let weightRatio = 0
             if( w && highestWeight) { weightRatio = w / highestWeight }
             //pretty sure this divides 0 by 0 sometimes
 
-            let melody = this.melody(useChord, beatIndex, weightRatio, scalenotes, repeatSectionPart)
+            let melody = this.melody(useChord, beatIndex, weightRatio, scalenotes)
             let length = this.length(beatItem, beatIndex, beatPattern.mainBeat.sort((a, b) => a.position - b.position))
             
             if(!weightRatio) {

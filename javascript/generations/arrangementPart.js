@@ -5,7 +5,6 @@ import {findInstrumentByName} from '../files/instruments/instrumentList.js'
 const generateArrangementsFromBeatPatternAndInstrumentList = (genre, beatPattern) => {
     let newArrangements = []
 
-    console.log(genre)
     let instruments = genre.instrumentList.instrumentSongParts
 
     instruments.map((song_part) => {
@@ -26,9 +25,10 @@ const generateArrangementsFromBeatPatternAndInstrumentList = (genre, beatPattern
     return newArrangements
 }
 
-const getNoteChoicePosition = (beatIndex, repeatSectionPart, weightRatio) => {
-    let res = Math.round(beatIndex * repeatSectionPart * weightRatio)
+const getNoteChoicePosition = (beatIndex, weightRatio) => {
+    let res = Math.round(beatIndex * weightRatio)
     if( res > 24 || res < 0) { console.log("WARNING in generation.getNoteChoicePosition, result was out of bounds, 0<=x<=24", res)}
+    if( typeof res !== 'number') { console.log("WARNING in generation.getNoteChoicePosition, result was not a number", res)}
     return res
 }
 

@@ -64,23 +64,20 @@ const thirdVerseGeneration = (v) => {
 }
 
 const fadeOutInstruments = (sp) => {
+    // let chance = sp.moodChip.excitement / 8
 
-    let chance = sp.moodChip.excitement / 8
+    // let removeNames = []
 
-    let removeNames = []
+    // sp.arrangements.forEach((a) => {
+    //     if (Math.random() > chance) {
+    //         removeNames.push(a.name)
+    //     }
+    // })
 
-    sp.arrangements.forEach((a) => {
-        if (Math.random() > chance) {
-            removeNames.push(a.name)
-        }
-    })
-
-
-    let new_arrange = sp.arrangements.filter((ap) => {
-        return !removeNames.includes(ap.instrument.name)
-    })
-    sp.arrangements = new_arrange
-
+    // let new_arrange = sp.arrangements.filter((ap) => {
+    //     return !removeNames.includes(ap.instrument.name)
+    // })
+    // sp.arrangements = new_arrange
 }
 
 const songStructureVariation = (song) => {

@@ -6,12 +6,8 @@ import Board from './javascript/components/output/board.js'
 
 import {playSong} from './javascript/components/output/recorder.js'
 
-
 let {genre, getRandomGenreInstanceFromKind, printGenreButtons} = genreList
 
-let boardElement = document.getElementById('board')
-let board = new Board()
-let song = null
 
 function initSong(e) {
     document.getElementById('controls').style.display = 'block'
@@ -21,15 +17,15 @@ function initSong(e) {
 
     let key = Math.round((Math.random() * 7) + 1)
 
-    let instrumentWeight = genre.instrumentList
-
     let musicSettings = new MoodChip(genre.moodChip)
 
     console.log(key, genre, musicSettings)
 
-    song = new Song(key, genre, musicSettings)
-    board.updateAndPrint(boardElement, genre.instrumentList)
+    let song = new Song(key, genre, musicSettings)
 
+    let boardElement = document.getElementById('board')
+    let board = new Board()
+    board.updateAndPrint(boardElement, genre.instrumentList)
     playSong(song)
 
     return song

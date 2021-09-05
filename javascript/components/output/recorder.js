@@ -1,26 +1,23 @@
-import {comp} from './master.js'
-
-let audio = document.getElementById('audio')
-let actx = Tone.context;
-
-//start recording
-const dest = actx.createMediaStreamDestination();
-const recorder = new MediaRecorder(dest.stream);
-comp.connect(dest)
-
-const chunks = [];
-
-recorder.ondataavailable = evt => chunks.push(evt.data);
-
-recorder.onstop = evt => {
-    let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
-    audio.src = URL.createObjectURL(blob);
-};
-
-document.querySelector('.pause-button').addEventListener('click', pause);
-document.querySelector('.play-button').addEventListener('click', play);
+import { comp } from './master.js'
 
 export async function playSong(song) {
+    let audio = document.getElementById('audio')
+    let actx = Tone.context;
+
+    //start recording
+    const dest = actx.createMediaStreamDestination();
+    const recorder = new MediaRecorder(dest.stream);
+    comp.connect(dest)
+
+    const chunks = [];
+
+    recorder.ondataavailable = evt => chunks.push(evt.data);
+
+    recorder.onstop = evt => {
+        let blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' });
+        audio.src = URL.createObjectURL(blob);
+    };
+
     console.log("Building Song")
 
     recorder.start()
@@ -30,9 +27,12 @@ export async function playSong(song) {
     Tone.Transport.bpm.value = song.genre.bpm
 
     document.getElementById('test').innerHTML = song.print()
-    
+
     await Tone.start()
 }
+
+document.querySelector('.pause-button').addEventListener('click', pause);
+document.querySelector('.play-button').addEventListener('click', play);
 
 function pause() {
     recorder.stop()

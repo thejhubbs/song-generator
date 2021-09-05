@@ -103,12 +103,9 @@ export default class SongPart {
         let progressionMainChord = this.coreProgression.chords[0]
 
         chords.map((chord, i) => {
-            let e = this.moodChip.excitement + (Math.round(Math.sqrt(this.moodChip.excitement)) * (i / 2 - 4))
-            e = random.bound(e, 1, 10)
 
             this.arrangements.map((p) => {
-                
-                    p.playPart(e, songPartIndex, chord, i, now, time, spacing, progressionMainChord, song)
+                    p.playPart(songPartIndex, chord, i, now, time, spacing, progressionMainChord, song)
                  
             })
 
