@@ -17,9 +17,9 @@ rockInstrumentWeight.changeWeight('drums', '', 8)
 rockInstrumentWeight.changeWeight('harmony', 'rockPiano', 4)
 
 
-rockInstrumentWeight.removeInstrument('drums')
-rockInstrumentWeight.removeInstrument('bass')
-rockInstrumentWeight.removeInstrument('harmony')
+// rockInstrumentWeight.removeInstrument('drums')
+// rockInstrumentWeight.removeInstrument('bass')
+// rockInstrumentWeight.removeInstrument('harmony')
 // rockInstrumentWeight.removeInstrument('melody')
 // rockInstrumentWeight.removeInstrument('fx')
 

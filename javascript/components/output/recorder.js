@@ -1,12 +1,14 @@
 import { comp } from './master.js'
 
+let recorder = null
+
 export async function playSong(song) {
     let audio = document.getElementById('audio')
     let actx = Tone.context;
 
     //start recording
     const dest = actx.createMediaStreamDestination();
-    const recorder = new MediaRecorder(dest.stream);
+    recorder = new MediaRecorder(dest.stream);
     comp.connect(dest)
 
     const chunks = [];

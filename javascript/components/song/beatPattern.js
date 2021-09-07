@@ -174,8 +174,8 @@ export default class BeatPattern {
         }
 
         return highestWeight
-
     }
+
 
     testBeat() {
         //this.moodChip.testChip()
@@ -201,5 +201,7 @@ export default class BeatPattern {
 
         return true
     }
+
+
 
 }

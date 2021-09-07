@@ -157,7 +157,7 @@ export default class Progression {
         ret += this.printChordNames(scaleNotes, scaleChords)
         ret += "<br />"
         this.chords.map( (c) => {
-            ret += " (" + c.root + ")" 
+            ret += ` (${c.root})` 
         })
         ret += "</div>"
         return ret

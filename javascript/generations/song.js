@@ -17,7 +17,7 @@ const versePostGeneration = (v) => {
 
 const bridgeGeneration = (bridge, bridgeSettings) => {
     bridgeSettings.scale('tension', 3, bridgeSettings.excitement)
-    bridgeSettings.scale('excitement', -8, bridgeSettings.excitement)
+    bridgeSettings.scale('excitement', -6, bridgeSettings.excitement)
     bridge.regenerate(bridgeSettings)
 }
 
@@ -64,7 +64,7 @@ const thirdVerseGeneration = (v) => {
 }
 
 const fadeOutInstruments = (sp) => {
-    // let chance = sp.moodChip.excitement / 8
+    // let chance = sp.moodChip.excitement / 7
 
     // let removeNames = []
 

@@ -128,7 +128,17 @@ export default class SongPart {
 
         ret += "<h3>Arrangements</h3>"
         ret += "<div class='arrangements'>"
-        this.arrangements.map((p) => ret += "<div class='arrangement'>" + p.name + "<br />" + p.beatPattern.print() + "</div>")
+        this.arrangements.map((p) => {
+
+            ret += "<div class='arrangement'>" + p.name + "<br />" + p.beatPattern.print() + "<br />"
+           
+            // if(p.beatPattern.beatStyle === 'melody') {
+            //     p.beatSequence.beats.map( (bsp) => ret += bsp.print() ) 
+            // }
+
+            ret += "</div>"
+        
+        })
 
 
         ret += "</div>"

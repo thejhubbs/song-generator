@@ -10,14 +10,18 @@
 
 */
 
+import BeatSequence from './beatSequence.js'
+
 import arrangementPartGeneration from '../../generations/arrangementPart.js'
 import test from '../../settings/test.js'
 import random from '../../settings/random.js'
 
 export default class ArrangementPart {
     constructor(name, beatPattern, i) {
+        let bp = beatPattern.clone()
         this.name = name
-        this.beatPattern = beatPattern.clone()
+        this.beatPattern = bp
+        this.beatSequence = new BeatSequence({beatPattern: bp})
         this.instrument = i 
     }
 
@@ -84,7 +88,9 @@ export default class ArrangementPart {
 
         if (!song.scaleNotes) { console.log("Scale notes not provided") }
 
-        let beatPattern = this.beatPattern
+        let beatPattern = this.beatSequence.beats[i]
+
+        if(!beatPattern) { console.log( "ERROR in song.arrangementPart.playPart- beatPattern is not found", this.beatSequence, i )}
 
         let highestWeight = beatPattern.highestWeight()
 
@@ -188,6 +194,7 @@ export default class ArrangementPart {
         let ret = ""
         ret += "<h4>" + this.name + "</h4>"
         ret += this.beatPattern.print()
+        //this.beatSequence.beats.map( (bsp) => ret += bsp.print() ) 
         return ret
     }
 }

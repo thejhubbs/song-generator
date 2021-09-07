@@ -29,6 +29,12 @@ export function getRandomFromMap(map) {
     return ret
 }
 
+export function getRandomValueFromMap(map) {
+    let val = Math.floor( Math.random() * map.length )
+
+    return map[val]
+}
+
 //random true or false
 export function randomTrueFalse(weight = 50) {
     let weightMap = [100 - weight, weight]
@@ -53,6 +59,7 @@ export default {
     randomInt,
     normalizeAndGetRandomFromMap,
     getRandomFromMap,
+    getRandomValueFromMap,
     randomTrueFalse,
     weightedTrueFalse,
     bound
