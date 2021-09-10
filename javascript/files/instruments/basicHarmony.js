@@ -5,8 +5,8 @@ const basicHarmonyOutput = () => {
     let harmonyOptions = {
         oscillator: {
             type: 'fatsawtooth',
-            spread: 40,
-            count: 7
+            spread: 120,
+            count: 3
         },
         envelope: {
             attack: .01,

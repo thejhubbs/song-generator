@@ -13,12 +13,12 @@ let rapBeatGenre = new GenreParent({
     category: "genre",
     
     modes: [6, 6],  
-    bpms: [45, 65],
+    bpms: [45, 75],
     moodChipRanges: {
         resonance: [7, 8],
         tension: [5, 7],
-        repetition: [3, 4],
-        excitement: [3, 5],
+        repetition: [4, 6],
+        excitement: [4, 7],
         spread: [4, 8]
     },     
     instrumentList: rapBeatInstrumentWeight

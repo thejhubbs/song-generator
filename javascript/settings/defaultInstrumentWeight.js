@@ -70,7 +70,7 @@ const defaultInstrumentWeightValues = () => {
                 {
                     kind: 'melody',
                     weight: 5,
-                    name: "softMelody",
+                    name: "basicMelody",
                     choiceWeight: 10
                 },
                 {

@@ -14,7 +14,7 @@ const generateArrangementsFromBeatPatternAndInstrumentList = (genre, beatPattern
             let i = findInstrumentByName(song_part_kind.name)
             if(!i) { console.log("ERROR in generation.generateArrangements, could not find instrument", song_part_kind.name) } 
 
-            let weight = song_part.weight * song_part_kind.weight / 100
+            let weight = (song_part.weight * song_part_kind.weight ) / (20 * beatPattern.excitement)
 
             let bp = beatPatternGeneration.generateNewBeatPatternFromBeatStyle(beatPattern, i.beatStyle, weight*10)
 

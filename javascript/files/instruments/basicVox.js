@@ -4,9 +4,7 @@ import OutputInstrument from '../../components/output/outputInstrument.js'
 const basicVoxOutput = () => {
     let voxOptions = {
         oscillator: {
-            type: 'fatsawtooth',
-            spread: 25,
-            count: 4
+            type: 'sawtooth'
         },
         envelope: {
             attack: .1,

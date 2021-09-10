@@ -33,15 +33,15 @@ export default class BeatSequence {
                 c4 = random.getRandomValueFromMap([c2, c3, 1, 2, 3])
                 let c5 = random.getRandomValueFromMap([c4, 3])
                 return [
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c3],
-                    beatChoices[c4],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c3].clone(),
+                    beatChoices[c4].clone(),
 
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c3],
-                    beatChoices[c5],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c3].clone(),
+                    beatChoices[c5].clone(),
                 ]
             case 'beatmelody':
             case 'offbeatmelody':
@@ -49,15 +49,15 @@ export default class BeatSequence {
                 c3 = random.getRandomValueFromMap([c1, c2, 1, 2])
                 c4 = random.getRandomValueFromMap([c2, c3, 1, 2, 3])
                 return [
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c1],
-                    beatChoices[c3],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c3].clone(),
 
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c1],
-                    beatChoices[c4],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c4].clone(),
                 ]
 
             case "beat":
@@ -65,27 +65,27 @@ export default class BeatSequence {
                 c3 = random.getRandomValueFromMap([c2, c2, 0, 1, 2])
                 c4 = random.getRandomValueFromMap([c3, c3, 1, 2, 3])
                 return [
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c1],
-                    beatChoices[c3],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c3].clone(),
 
-                    beatChoices[c1],
-                    beatChoices[c2],
-                    beatChoices[c1],
-                    beatChoices[c4],
+                    beatChoices[c1].clone(),
+                    beatChoices[c2].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c4].clone(),
                 ]
             case "hardbeat":
             default:
                 return [
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
-                    beatChoices[c1],
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
+                    beatChoices[c1].clone(),
                 ]
         }
 

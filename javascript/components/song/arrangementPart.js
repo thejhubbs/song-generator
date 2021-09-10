@@ -128,7 +128,7 @@ export default class ArrangementPart {
             }
 
             if (melody) {
-                this.instrument.outputInstrument.playNote(melody, timing, weightRatio, length)
+                this.instrument.outputInstrument.playNote(melody, timing, weightRatio/3 + .66, length)
             }
         })
     }
@@ -194,7 +194,6 @@ export default class ArrangementPart {
         let ret = ""
         ret += "<h4>" + this.name + "</h4>"
         ret += this.beatPattern.print()
-        //this.beatSequence.beats.map( (bsp) => ret += bsp.print() ) 
         return ret
     }
 }

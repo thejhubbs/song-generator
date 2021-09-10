@@ -29,7 +29,7 @@ export default class BeatPattern {
 
 
 
-        let amount = ( (this.moodChip.excitement ** 2) / 5)
+        let amount = 2 + (( this.moodChip.excitement + 1) / 2 )
 
         for (let i = 0; i < amount; i++) {
             let val = random.normalizeAndGetRandomFromMap(simpleWeightArray)
@@ -122,7 +122,7 @@ export default class BeatPattern {
         return newBeat
     }
 
-    print() {
+    print = () => {
 
         let ret = '<span>'
         ret += this.moodChip.print()
@@ -130,17 +130,10 @@ export default class BeatPattern {
         ret += " / <span class='beat-pattern'>"
         ret += "<i class='beat-pattern-name'>B</i>"
         ret += "<span class='beat-pattern-info' style='font-family: courier;'>"
+       
+        ret += this.printMainBeat()
 
-        let arr = []
-        this.mainBeat.map((b) => arr[b.position] = b.weight)
-
-        ret += "["
-        for (var i = 0; i < 32; i++) {
-            if (arr[i]) { ret += arr[i] }
-            else { ret += '-' }
-        }
-        ret += "]<br />"
-
+        ret += "<br />"
         ret += "["
         for (var i = 0; i < 32; i++) {
             let char = " "
@@ -155,11 +148,30 @@ export default class BeatPattern {
         }
         ret += "]"
 
-
         ret += "</span>"
         ret += "</span>"
         ret += "</span>"
 
+        return ret
+    }
+
+    printMainBeat = () => {
+        let arr = []
+        this.mainBeat.map((b) => arr[b.position] = b.weight)
+        let ret = "["
+        for (var i = 0; i < 32; i++) {
+            if (arr[i]) { 
+                let v = arr[i]
+                if (v >= 10) {
+                    ret+= `<span style='text-decoration:underline'>${v%10}</span>`
+                } else {
+                    ret += arr[i] 
+                }
+            }
+            else { ret += '-' }
+        }
+        ret += "]"
+        
         return ret
     }
 

@@ -6,7 +6,7 @@ const chorusGeneration = (chorus, chorusSettings) => {
 
 const verseGeneration = (verse, verseSettings) => {
     verseSettings.scale('tension', 2, verseSettings.tension)
-    verseSettings.scale('excitement', -6, verseSettings.excitement)
+    verseSettings.scale('excitement', -3, verseSettings.excitement)
     verse.regenerate(verseSettings)
 }
 
@@ -16,8 +16,8 @@ const versePostGeneration = (v) => {
 }
 
 const bridgeGeneration = (bridge, bridgeSettings) => {
-    bridgeSettings.scale('tension', 3, bridgeSettings.excitement)
-    bridgeSettings.scale('excitement', -6, bridgeSettings.excitement)
+    bridgeSettings.scale('tension', 4, bridgeSettings.excitement)
+    bridgeSettings.scale('excitement', -5, bridgeSettings.excitement)
     bridge.regenerate(bridgeSettings)
 }
 
@@ -47,7 +47,7 @@ const thirdChorusGeneration = (c) => {
 }
 
 const introVerseGeneration = (v) => {
-    let v_intro = v.cloneAlter(-5)
+    let v_intro = v.cloneAlter(-4)
     fadeOutInstruments(v_intro)
 
     return v_intro
@@ -64,20 +64,38 @@ const thirdVerseGeneration = (v) => {
 }
 
 const fadeOutInstruments = (sp) => {
-    // let chance = sp.moodChip.excitement / 7
+    // [low e] 0 - 1 [hi e]
+    let chance = sp.moodChip.excitement / 15 + .33
 
-    // let removeNames = []
 
-    // sp.arrangements.forEach((a) => {
-    //     if (Math.random() > chance) {
-    //         removeNames.push(a.name)
-    //     }
-    // })
 
-    // let new_arrange = sp.arrangements.filter((ap) => {
-    //     return !removeNames.includes(ap.instrument.name)
-    // })
-    // sp.arrangements = new_arrange
+    sp.arrangements.forEach((a, i) => {
+        let r = Math.random()
+        if (r > chance) {
+            a.beatSequence.beats[0].mainBeat = []
+        }
+
+        if (r > chance * 1.25) {
+            a.beatSequence.beats[1].mainBeat = []
+        }
+
+        if (r > chance * 1.5) {
+            a.beatSequence.beats[2].mainBeat = []
+            a.beatSequence.beats[3].mainBeat = []
+        }
+
+        let r2 = Math.random()
+        if (r2 > chance) {
+            a.beatSequence.beats[7].mainBeat = []
+        }
+        if (r2 > chance * 1.5) {
+            a.beatSequence.beats[3].mainBeat = []
+        }
+
+
+
+    })
+
 }
 
 const songStructureVariation = (song) => {

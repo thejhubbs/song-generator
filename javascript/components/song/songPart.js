@@ -65,7 +65,9 @@ export default class SongPart {
 
     cloneAlter(excitementChange = 0, repeat = false) {
         let p = this.coreProgression.clone()
-        excitementChange = excitementChange * Math.abs( excitementChange / 10 )
+
+        excitementChange = excitementChange * Math.abs( excitementChange / 20 )
+
         p.moodChip.increase('excitement', excitementChange)
 
         let b = this.beatPattern.clone()
@@ -131,14 +133,22 @@ export default class SongPart {
         this.arrangements.map((p) => {
 
             ret += "<div class='arrangement'>" + p.name + "<br />" + p.beatPattern.print() + "<br />"
-           
-            // if(p.beatPattern.beatStyle === 'melody') {
-            //     p.beatSequence.beats.map( (bsp) => ret += bsp.print() ) 
-            // }
 
             ret += "</div>"
         
         })
+
+        ret += "<div style='width:1100px;overflow:scroll;'>";
+        ret += "<div style='font-family: Courier New;width:max-content;'>"
+        this.arrangements.map((p) => {
+            ret += "<span style='width:200px;display:inline-block;position:absolute;left:0;'>" + p.name + ":</span> "
+            p.beatSequence.beats.map( (bsp) => ret += bsp.printMainBeat() )
+            ret += "<br />"
+        })
+
+        ret += "</div>"
+        ret += "</div>"
+        
 
 
         ret += "</div>"

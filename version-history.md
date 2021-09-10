@@ -14,3 +14,4 @@ Increased variation in volume for instruments
 v.0.0.7
 Make js files import/export
 Generate buttons based on genre list
+Improve fade instr. a little bit
