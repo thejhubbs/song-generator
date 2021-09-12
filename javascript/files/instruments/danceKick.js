@@ -15,7 +15,7 @@ const danceKick = () => {
         part: "kick",
         kind: "drum",
         instrument: danceKickOutput(),
-        volume: -12,
+        volume: -6,
         filter: [0, 0, 0],
         fx1: ['Distortion', [1]],
         noteStyle: '32n',

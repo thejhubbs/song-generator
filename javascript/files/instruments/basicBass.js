@@ -24,7 +24,7 @@ const basicBass = () => {
         part: "bass",
         kind: "bass",
         instrument: basicBassOutput(),
-        volume: -25,
+        volume: -13,
         filter: [0, 0, 0],
         fx1: ['', []],
         noteStyle: 'half',

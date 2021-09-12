@@ -5,7 +5,7 @@ import OutputInstrument from '../../components/output/outputInstrument.js'
 const rockPianoOutput = () => {
     let arpOptions = {
         oscillator: {
-            type: 'sawtooth',
+            type: 'triangle',
         },
         envelope: {
             attack: .001,
@@ -13,8 +13,8 @@ const rockPianoOutput = () => {
         }
     }
     
-    let arpFilter = new Tone.EQ3(-100, -25, -25).connect(comp);
-    let arpSynth = new OutputInstrument(Tone.Synth, arpFilter, 2, arpOptions)
+    let arpFilter = new Tone.EQ3(-100, -15, -15).connect(comp);
+    let arpSynth = new OutputInstrument(Tone.Synth, arpFilter, 1, arpOptions)
     return arpSynth
 }
 
@@ -24,14 +24,14 @@ const rockPiano = () => {
         part: "arpeggio",
         kind: "harmony",
         instrument: rockPianoOutput(),
-        volume: 0,
+        volume: 15,
         filter: [0, 0, 0],
         fx1: ['', []],
-        noteStyle: '32n',
+        noteStyle: '8n',
         chordStyle: 'chord',
-        beatStyle: "beatmelody",
+        beatStyle: "melody",
         shortcut: '1',
-        noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition( ( x % 6 ) + 1, sn, 3)] }
+        noteArray: (chord, sn, x) => { return [chord.printNoteFromChordPosition( ( x % 6 ) + 1, sn, 4)] }
     }
 }
 

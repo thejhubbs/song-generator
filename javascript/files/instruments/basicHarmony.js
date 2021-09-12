@@ -4,9 +4,7 @@ import OutputInstrument from '../../components/output/outputInstrument.js'
 const basicHarmonyOutput = () => {
     let harmonyOptions = {
         oscillator: {
-            type: 'fatsawtooth',
-            spread: 120,
-            count: 3
+            type: 'sawtooth',
         },
         envelope: {
             attack: .01,

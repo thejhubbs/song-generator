@@ -9,6 +9,7 @@ import seaGenre from './sea.js'
 import homeTownGenre from './hometown.js'
 import bigTownGenre from './bigtown.js'
 import rockGenre from './rock.js'
+import upbeatVibeGenre from './upbeatvibe.js'
 
 let genreList = [
     rapBeatGenre,
@@ -22,6 +23,7 @@ let genreList = [
     homeTownGenre,
     bigTownGenre,
     rockGenre,
+    upbeatVibeGenre
 ]
 
 

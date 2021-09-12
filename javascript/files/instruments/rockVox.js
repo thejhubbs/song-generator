@@ -26,7 +26,7 @@ const rockVox = () => {
         part: "vox",
         kind: "melody",
         instrument: rockVoxOutput(),
-        volume: 12,
+        volume: 6,
         filter: [0, 0, 0],
         fx1: ['', []],
         noteStyle: 'half',

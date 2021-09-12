@@ -19,14 +19,28 @@ export default class Board {
 
     }
 
+    changeVolumeControl = (event) => {
+        let boardElement = document.getElementById('board')
+        this.changeInstrumentVolume(event.target.getAttribute('data-name'), event.target.value, boardElement)
+    }
 
-    printBoard(boardElement) {
+    toggleBoardControl = (event) => {
+        let boardElement = document.getElementById('board')
+        this.toggleInstrumentVolume(event.target.getAttribute('data-name'), boardElement)
+    }
+
+    printBoard() {
+        let boardElement = document.getElementById('board')
         let instrumentControlDiv = "<div class='instrumentBoardBlock'>"
 
         boardElement.innerHTML = instrumentControlDiv + 
         Object.entries(this.instruments).map( (pair) => {
             return pair[1].instrumentSetting.shortcut  + "<br />" + pair[1].volumeKnob( pair[0] ) + "<br />" + pair[0]
         }) .join(  "</div>" + instrumentControlDiv) + "</div>"
+
+        
+        document.querySelectorAll('.board-volume-slider').forEach((vs) => vs.addEventListener('change', this.changeVolumeControl ));
+        document.querySelectorAll('.board-toggle').forEach((vs) => vs.addEventListener('change', this.toggleBoardControl ));
     }
 
     updateAndPrint(boardElement, instruments) {
@@ -73,8 +87,8 @@ class BoardControl {
     }
 
     volumeKnob(name) {
-        let checkbox = "<input onchange='toggleBoardControl(this)' data-name='" + name + "' type='checkbox' " + (this.master === false ? '' : 'checked') + " >" 
-        if(this.master !== false) { checkbox += "<div><span>" + this.master + "</span> <input  onchange='changeVolumeControl(this)' data-name='" + name + "'  type='range' class='slider' min='-50' max='50' value=" + this.master + " /></div>" }
+        let checkbox = "<input class='board-toggle' data-name='" + name + "' type='checkbox' " + (this.master === false ? '' : 'checked') + " >" 
+        if(this.master !== false) { checkbox += "<div><span>" + this.master + "</span> <input data-name='" + name + "'  type='range' class='slider board-volume-slider' min='-50' max='50' value=" + this.master + " /></div>" }
         return checkbox 
     }
 
@@ -85,17 +99,23 @@ class BoardControl {
 
 
     changeVolume(amount) {
+        if(!amount) { console.log()}
         this.master = amount
         this.instrumentSetting.volume = amount
-        this.synth.synth.volume.value = this.master;
+        if(this.synth) {
+            if(this.synth.synth) {
+                if (this.synth.synth.volume.value) {
+                    this.synth.synth.volume.value = this.master;
+                } else {
+                    console.log("ERROR components.board.changeVolume- in synth")
+                }
+            } else {
+                console.log("ERROR components.board.changeVolume- in synth")
+            }
+        } else {
+            console.log("ERROR components.board.changeVolume- in synth")
+        }
+
     }
 
-}
-
-function toggleBoardControl(event) {
-    board.toggleInstrumentVolume(event.getAttribute('data-name'))
-}
-
-function changeVolumeControl(event) {
-    board.changeInstrumentVolume(event.getAttribute('data-name'), event.value)
 }

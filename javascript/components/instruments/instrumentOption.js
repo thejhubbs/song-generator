@@ -6,7 +6,7 @@ export default class InstrumentOption {
 
         this.outputInstrument = settings.instrument
 
-        this.volume = 1
+        this.volume = settings.volume || 1
         this.filter = [0, 0, 0]
         this.fx = []
 

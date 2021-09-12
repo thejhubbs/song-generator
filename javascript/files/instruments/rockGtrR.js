@@ -25,7 +25,7 @@ const rockGtrR = () => {
         part: "harmony",
         kind: "harmony",
         instrument: rockGtrROutput(),
-        volume: 50,
+        volume: 15,
         filter: [0, 0, 0],
         fx1: ['', []],
         noteStyle: '16n',

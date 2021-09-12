@@ -4,10 +4,12 @@ import Song from './javascript/components/song/song.js'
 import MoodChip from './javascript/components/moodChip.js'
 import Board from './javascript/components/output/board.js'
 
-import {playSong} from './javascript/components/output/recorder.js'
+import { playSong } from './javascript/components/output/recorder.js'
 
-let {genre, getRandomGenreInstanceFromKind, printGenreButtons} = genreList
+let { genre, getRandomGenreInstanceFromKind, printGenreButtons } = genreList
 
+let board = new Board()
+let boardElement = document.getElementById('board')
 
 function initSong(e) {
     document.getElementById('controls').style.display = 'block'
@@ -23,16 +25,17 @@ function initSong(e) {
 
     let song = new Song(key, genre, musicSettings)
 
-    let boardElement = document.getElementById('board')
-    let board = new Board()
     board.updateAndPrint(boardElement, genre.instrumentList)
+
     playSong(song)
 
     return song
 }
 
 printGenreButtons()
-document.querySelectorAll('.genre-button').forEach( (gb) => gb.addEventListener('click', initSong) );
+document.querySelectorAll('.genre-button').forEach((gb) => gb.addEventListener('click', initSong));
+
+
 
 
 // function changeTempo() {

@@ -5,10 +5,9 @@ export default class BeatPattern {
     constructor(moodChip, beatStyle='beatmelody', beat = null) {
         this.moodChip = moodChip.clone()
         this.beatStyle = beatStyle
-        this.excitement = moodChip.excitement
-        this.repetition = moodChip.repetition
+        
         if (beat) {
-            this.mainBeat = beat.sort((a, b) => a.position - b.position)
+            this.mainBeat = beat.sort((a, b) => a.position - b.position).map( (b) => ({ position: b.position, weight: b.weight }) )
         }
         else {
             this.randomizeBeat()
@@ -21,7 +20,7 @@ export default class BeatPattern {
 
         let weightKey = {}
         randomMap.map((r) => weightKey[String(r)] ? weightKey[String(r)] += 1 : weightKey[String(r)] = 1)
-        let val = Math.sqrt(this.repetition) / 3
+        let val = Math.sqrt(this.moodChip.repetition) / 3
         Object.entries(weightKey).map(([notePos, weight]) => weightKey[String(notePos)] = Math.round(weight ** val))
 
         let simpleWeightArray = Object.values(weightKey)
@@ -33,7 +32,7 @@ export default class BeatPattern {
 
         for (let i = 0; i < amount; i++) {
             let val = random.normalizeAndGetRandomFromMap(simpleWeightArray)
-            let weight = Math.ceil( simpleWeightArray[val] * (amount - i) * ((11 - this.excitement)**1.5) / 10 )
+            let weight = Math.ceil( simpleWeightArray[val] * (amount - i) * ((11 - this.moodChip.excitement)**1.5) / 10 )
             let position = weightKeys[val]
             let copy = false
 
@@ -65,7 +64,7 @@ export default class BeatPattern {
         let clone = new BeatPattern(this.moodChip, this.beatStyle, this.mainBeat)
 
         let newBeat = clone.mainBeat.map((beatItem) => {
-            let newWeight = beatPatternGeneration.alterWeight(this.excitement, excitement, beatItem.weight)
+            let newWeight = beatPatternGeneration.alterWeight(this.moodChip.excitement, excitement, beatItem.weight)
             if(newWeight === 0) { return null }
             else { return { ...beatItem, weight: newWeight } }
         })
@@ -116,7 +115,7 @@ export default class BeatPattern {
     clone() {
         if( !this.testBeat() ) { console.log("ERROR in song.beatPattern.clone- invalid beat", this)}
 
-        let newBeat = new BeatPattern(this.moodChip, this.beatStyle, this.mainBeat)
+        let newBeat = new BeatPattern(this.moodChip, this.beatStyle, [ ...this.mainBeat ] )
         if ( !newBeat.testBeat() ) { console.log("ERROR in song.beatPattern.clone- invalid beat", newBeat)}
 
         return newBeat

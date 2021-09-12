@@ -14,7 +14,7 @@ const basicHat = () => {
         part: "hat",
         kind: "drum",
         instrument: basicHatOutput(),
-        volume: -20,
+        volume: -15,
         filter: [0, 0, 0],
         fx1: ['', []],
         noteStyle: '32n',
