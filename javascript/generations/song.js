@@ -67,8 +67,6 @@ const fadeOutInstruments = (sp) => {
     // [low e] 0 - 1 [hi e]
     let chance = sp.moodChip.excitement / 15 + .33
 
-
-
     sp.arrangements.forEach((a, i) => {
         let r = Math.random()
         if (r > chance) {
@@ -91,8 +89,6 @@ const fadeOutInstruments = (sp) => {
         if (r2 > chance * 1.5) {
             a.beatSequence.beats[3].mainBeat = []
         }
-
-
 
     })
 

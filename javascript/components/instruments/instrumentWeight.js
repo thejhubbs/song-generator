@@ -119,7 +119,7 @@ class InstrumentWeightSongPart {
         }
 
         this.weight = song_part.weight,
-            this.name = song_part.name
+        this.name = song_part.name
         this.parts = []
 
         song_part.kinds.map((kind) => {

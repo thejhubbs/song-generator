@@ -89,20 +89,6 @@ export default class BeatSequence {
                 ]
         }
 
-
-        // return [
-
-        //     beatPattern.cloneAlter(2),
-        //     secondBeat.cloneAlter(3), 
-        //     thirdBeat.cloneAlter(4), 
-        //     fourthBeat.cloneAlter(5),
-
-        //     beatPattern.cloneAlter(3),
-        //     secondBeat.cloneAlter(4), 
-        //     thirdBeat.cloneAlter(5), 
-        //     fourthBeat.cloneAlter(6),
-
-        // ]
     }
 
 }

@@ -90,6 +90,8 @@
 import SongPart from './songPart.js'
 import Progression from './progression.js'
 
+import InstrumentFade from '../instruments/instrumentFade.js'
+
 import songGeneration from '../../generations/song.js'
 
 import {chromaticNotes, scaleNotes, scaleChords} from '../../settings/music.js'
@@ -106,6 +108,8 @@ export default class Song {
         this.songParts = []
         this.scaleNotes = []
         this.scaleChords = []
+
+        this.instrumentFade = new InstrumentFade({instrumentWeight: genre.instrumentList})
 
         this.setModeAndKey()
         this.generateSong()

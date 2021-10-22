@@ -104,10 +104,18 @@ export default class SongPart {
         let chords = this.retrieveChords()
         let progressionMainChord = this.coreProgression.chords[0]
 
+        let instruments = song.instrumentFade.calculateExcitement(this.moodChip.excitement)
+        //console.log(this.moodChip.excitement)
+        //console.log(instruments)
+
         chords.map((chord, i) => {
 
             this.arrangements.map((p) => {
-                    p.playPart(songPartIndex, chord, i, now, time, spacing, progressionMainChord, song)
+                    let included = instruments.filter( (inst) => inst.name === p.instrument.name ).length > 0
+                    if(included) {
+                        p.playPart(songPartIndex, chord, i, now, time, spacing, progressionMainChord, song)
+                    }
+
                  
             })
 
